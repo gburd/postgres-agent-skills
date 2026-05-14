@@ -2,139 +2,72 @@
 
 Pre-built skills and knowledge for AI agents to interact with PostgreSQL community resources via the [Agora](https://postgr.esq) MCP server.
 
-Agora provides access to 40+ years of PostgreSQL mailing list archives, the PostgreSQL source code with full call-graph intelligence, and community documentation — all through the Model Context Protocol (MCP).
+## Branch Strategy
 
-## Quick Start
-
-### Claude Code
-
-1. Copy the MCP configuration into your project:
+This repository uses per-agent branches. Clone the branch for your agent:
 
 ```bash
-# Project-level configuration
-cp claude/mcp-config.json .mcp.json
-
-# Or add to your user-level config at ~/.claude/settings.json
+git clone -b <agent> https://codeberg.org/postgresq/skills.git
 ```
 
-2. Install skills (symlink or copy into your `.claude/skills/` directory):
+### Available Branches
 
+| Branch | Contents |
+|--------|----------|
+| `claude` | Claude Code skills + shared content (generic/, community/, examples/) |
+| `kiro` | Kiro specs + shared content |
+| `pi` | Pi (pi.dev) AGENTS.md + shared content |
+| `maki` | Maki Lua plugins + shared content |
+| `other` | Shared content only (generic/, community/, examples/) |
+
+### Quick Install
+
+**Claude Code:**
 ```bash
-mkdir -p .claude/skills
-cp claude/*.md .claude/skills/
+git clone -b claude https://codeberg.org/postgresq/skills.git .claude/skills/postgresq
 ```
 
-3. Skills are automatically available when Claude Code starts. Invoke them with slash commands or let Claude use them contextually.
-
-### Kiro
-
-1. Copy specs into your project's `.kiro/specs/` directory:
-
+**Kiro:**
 ```bash
-mkdir -p .kiro/specs
-cp kiro/specs/*.md .kiro/specs/
+git clone -b kiro https://codeberg.org/postgresq/skills.git .kiro/skills/postgresq
 ```
 
-2. Configure the MCP server in your Kiro settings using the endpoint `https://postgr.esq/l/mcp/`.
-
-### Pi (pi.dev)
-
-1. Copy `AGENTS.md` into your project root (or wherever your pi agent reads project instructions):
-
+**Pi (pi.dev):**
 ```bash
-cp pi/AGENTS.md ./AGENTS.md
+git clone -b pi https://codeberg.org/postgresq/skills.git /tmp/skills
+cp /tmp/skills/pi/AGENTS.md ./AGENTS.md
 ```
 
-2. The agent will automatically connect to the Agora MCP endpoint documented within.
-
-### Maki (tontinton/maki)
-
-1. Install the Lua plugin:
-
+**Maki (tontinton/maki):**
 ```bash
-cp maki/plugins/agora.lua ~/.config/maki/plugins/
+git clone -b maki https://codeberg.org/postgresq/skills.git /tmp/skills
+cp /tmp/skills/maki/plugins/agora.lua ~/.config/maki/plugins/
 ```
 
-2. Use in your maki scripts:
-
-```lua
-local agora = require("agora")
-local results = agora.search("s:parallel query", { inbox = "pgsql-hackers" })
+**Any MCP client:**
+```bash
+git clone -b other https://codeberg.org/postgresq/skills.git /tmp/skills
+# Use generic/mcp-servers.json for your client's MCP configuration
 ```
 
-### Generic MCP Clients
+## What's Included
 
-1. Use the configuration in `generic/mcp-servers.json` to connect any MCP-compatible client to Agora.
+Each agent branch includes these shared directories:
 
-2. Review the workflow documents in `generic/workflows/` for step-by-step guides on common tasks.
+- **generic/** — MCP client configs and step-by-step workflows for common tasks
+- **community/** — PostgreSQL community knowledge base (40 years of encoded practice)
+- **examples/** — Worked examples showing research patterns
 
-## Repository Structure
-
-```
-skills/
-├── README.md                  # This file
-├── claude/                    # Claude Code skills
-│   ├── mcp-config.json        # MCP server configuration
-│   ├── postgres-research.md   # Research methodology
-│   ├── patch-review.md        # Patch review with historical context
-│   ├── commit-archaeology.md  # Trace code to mailing list discussions
-│   ├── community-norms.md     # Community methodology and etiquette
-│   └── development-process.md # PostgreSQL development cycle
-├── kiro/                      # Kiro agent specs
-│   └── specs/
-│       ├── research-hackers.md    # Research pgsql-hackers
-│       ├── code-review.md         # Code review with context
-│       └── community-context.md   # Community context
-├── pi/                        # pi.dev agent
-│   └── AGENTS.md              # Comprehensive research methodology
-├── maki/                      # tontinton/maki agent
-│   ├── README.md              # Installation and usage guide
-│   └── plugins/
-│       └── agora.lua          # MCP client Lua plugin
-├── generic/                   # Any MCP client
-│   ├── mcp-servers.json       # Standard MCP configuration
-│   └── workflows/
-│       ├── find-related-patches.md
-│       ├── trace-feature-history.md
-│       ├── review-thread-context.md
-│       ├── semantic-code-search.md
-│       └── bug-investigation.md
-├── community/                 # PostgreSQL community knowledge base
-│   ├── methodology.md         # Email-driven development practices
-│   ├── review-standards.md    # What reviewers look for
-│   ├── coding-conventions.md  # C coding standards
-│   ├── patch-submission.md    # How to submit patches
-│   ├── communication-norms.md # Mailing list etiquette
-│   ├── decision-making.md     # How consensus is reached
-│   └── common-pitfalls.md     # Mistakes newcomers make
-└── examples/                  # Worked examples
-    ├── how-was-wal-implemented.md
-    ├── find-all-vacuum-discussions.md
-    ├── trace-index-am-evolution.md
-    └── review-a-patch-series.md
-```
+Plus the agent-specific directory with skills in the agent's native format.
 
 ## MCP Server Endpoint
-
-The Agora MCP server is available at:
 
 ```
 https://postgr.esq/l/mcp/
 ```
 
-Transport: Streamable HTTP (the modern MCP transport protocol).
-
-## Available MCP Tools
-
-The Agora server exposes tools for:
-
-- **Email search**: Full-text, semantic, and hybrid search across all PostgreSQL mailing lists
-- **Thread navigation**: Get complete threads, follow references, find related discussions
-- **Code intelligence**: Symbol search, call graphs, type hierarchies, dead code detection
-- **Git analysis**: Blame, diff, log, churn analysis, coupling detection
-- **Patch tracking**: Find patch series, check upstream merge status
-- **Community context**: Author history, contributor patterns, inbox statistics
+Transport: Streamable HTTP. No authentication required.
 
 ## License
 
-This repository is dedicated to the public domain under CC0-1.0.
+CC0-1.0 (public domain dedication)

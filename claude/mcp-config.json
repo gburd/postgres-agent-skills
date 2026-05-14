@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "agora": {
-      "url": "https://postgr.esq/l/mcp/",
-      "transport": "streamable-http"
-    }
-  }
-}
