@@ -37,6 +37,31 @@ cp kiro/specs/*.md .kiro/specs/
 
 2. Configure the MCP server in your Kiro settings using the endpoint `https://postgr.esq/l/mcp/`.
 
+### Pi (pi.dev)
+
+1. Copy `AGENTS.md` into your project root (or wherever your pi agent reads project instructions):
+
+```bash
+cp pi/AGENTS.md ./AGENTS.md
+```
+
+2. The agent will automatically connect to the Agora MCP endpoint documented within.
+
+### Maki (tontinton/maki)
+
+1. Install the Lua plugin:
+
+```bash
+cp maki/plugins/agora.lua ~/.config/maki/plugins/
+```
+
+2. Use in your maki scripts:
+
+```lua
+local agora = require("agora")
+local results = agora.search("s:parallel query", { inbox = "pgsql-hackers" })
+```
+
 ### Generic MCP Clients
 
 1. Use the configuration in `generic/mcp-servers.json` to connect any MCP-compatible client to Agora.
@@ -60,6 +85,12 @@ skills/
 │       ├── research-hackers.md    # Research pgsql-hackers
 │       ├── code-review.md         # Code review with context
 │       └── community-context.md   # Community context
+├── pi/                        # pi.dev agent
+│   └── AGENTS.md              # Comprehensive research methodology
+├── maki/                      # tontinton/maki agent
+│   ├── README.md              # Installation and usage guide
+│   └── plugins/
+│       └── agora.lua          # MCP client Lua plugin
 ├── generic/                   # Any MCP client
 │   ├── mcp-servers.json       # Standard MCP configuration
 │   └── workflows/
