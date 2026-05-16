@@ -63,7 +63,7 @@ Plus the agent-specific directory with skills in the agent's native format.
 ## MCP Server Endpoint
 
 ```
-https://postgr.esq/l/mcp/
+https://postgr.esq/mcp/
 ```
 
 Transport: Streamable HTTP. No authentication required.
