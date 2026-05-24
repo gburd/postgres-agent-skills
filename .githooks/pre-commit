@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Gitleaks pre-commit hook. Blocks commits that introduce secret material.
+# Skip with `git commit --no-verify` only if you understand the risk.
+#
+# Provenance: postgresq/skills; configure with `git config core.hooksPath .githooks`.
+
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+    echo "gitleaks: not in PATH; install via 'nix-shell -p gitleaks' or skip with --no-verify" >&2
+    exit 0
+fi
+
+# `protect --staged` scans only what's about to be committed (fast).
+if ! gitleaks protect --staged --redact --no-banner --config="${GIT_DIR:-.git}/../.gitleaks.toml" 2>/dev/null \
+    && ! gitleaks protect --staged --redact --no-banner; then
+    cat >&2 <<'MSG'
+
+gitleaks: refusing to commit suspected secret material.
+
+Resolve via one of:
+  - allow:   add `# gitleaks:allow` on the same line as the false positive
+  - config:  add a rule to .gitleaks.toml at the repo root
+  - bypass:  git commit --no-verify  (only if you understand the risk)
+MSG
+    exit 1
+fi

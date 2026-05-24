@@ -1,0 +1,38 @@
+# Repo-local gitleaks allowlist for postgresq/skills.
+#
+# The default rule set is sourced from gitleaks itself; this file ONLY
+# documents project-specific false-positive exceptions.
+#
+# To re-baseline after adding rules:
+#     gitleaks detect --config=.gitleaks.toml --no-banner --redact
+
+title = "postgresq false-positive allowlist"
+
+[extend]
+# Inherit gitleaks' default rules.
+useDefault = true
+
+[allowlist]
+description = "postgresq local exceptions"
+
+# sops-encrypted blobs. Each value is ENC[AES256_GCM,...]; treat the file
+# as opaque ciphertext.
+paths = [
+    '''secrets/secrets\.yaml''',
+    '''secrets/\.sops\.yaml''',
+    '''\.sops\.yaml''',
+]
+
+# Common docker-compose / dev-env placeholder credentials. None of these
+# match real production passwords.
+regexes = [
+    '''pi_secret''',
+    '''postgres:postgres@''',
+    '''postgres://postgres:postgres''',
+    '''user:password@''',
+    '''agora:PASSWORD@''',
+    '''CHANGEME''',
+    '''<password>''',
+    '''<your-token>''',
+    '''example\.com''',
+]
