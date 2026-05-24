@@ -1,6 +1,6 @@
 # PostgreSQL Community Agent Skills
 
-Pre-built skills and knowledge for AI coding agents working on PostgreSQL — community research, patch review, internals investigation, AWS benchmarking, C-to-Rust porting, and the surrounding workflow.
+Pre-built skills and knowledge for AI coding agents working on PostgreSQL — community research, patch review, internals investigation, performance work, and the surrounding workflow.
 
 The repository is structured as one branch per supported agent. Each branch ships shared community knowledge, agent-specific configuration, and the operator's tested per-task skills translated into that agent's native skill format.
 
@@ -18,12 +18,12 @@ git clone -b <agent> https://codeberg.org/postgresq/skills.git
 
 | Branch | Contents |
 |--------|----------|
-| `claude` | Claude Code skills + 25 operator skills (`<skill>/SKILL.md` w/ frontmatter) + shared content |
-| `kiro` | Kiro specs + 25 operator skills (same frontmatter format) + shared content |
-| `pi` | Pi (pi.dev) AGENTS.md + 25 operator skills (Pi reads `~/.kiro/skills/`) + shared content |
-| `codex` | OpenAI Codex prompts + 25 operator skills (no frontmatter) + `codex/install.sh` + `codex/mcp_servers.toml` + shared content |
-| `maki` | Maki Lua plugin + 25 operator skills as agent context + shared content |
-| `other` | Shared content + 25 operator skills, generic markdown for any MCP-aware agent |
+| `claude` | Claude Code skills + 13 operator skills (`<skill>/SKILL.md` w/ frontmatter) + shared content |
+| `kiro` | Kiro specs + 13 operator skills (same frontmatter format) + shared content |
+| `pi` | Pi (pi.dev) AGENTS.md + 13 operator skills (Pi reads `~/.kiro/skills/`) + shared content |
+| `codex` | OpenAI Codex prompts + 13 operator skills (no frontmatter) + `codex/install.sh` + `codex/mcp_servers.toml` + shared content |
+| `maki` | Maki Lua plugin + 13 operator skills as agent context + shared content |
+| `other` | Shared content + 13 operator skills, generic markdown for any MCP-aware agent |
 
 ### Quick Install
 
@@ -70,7 +70,7 @@ Each agent branch includes:
 - **generic/** — MCP client config and step-by-step workflows for common research tasks.
 - **community/** — PostgreSQL community knowledge base (40 years of encoded conventions, review standards, communication norms).
 - **examples/** — Worked examples showing research patterns end-to-end.
-- **25 operator skills** at branch root — AWS lifecycle, Rust idioms, porting (C→Rust, flex/bison→Lime), workflow meta (`btw`, `checkpoint`, `dream`, `review-diff`, `think-hard`, `watchdog`), and PG-specific (`pg-numa-benchmark`, `postgresq`, `coccinelle`, `flex-bison-to-lime`, `hegel`, `memelord-init`).
+- **13 operator skills** at branch root — workflow meta (`btw`, `checkpoint`, `dream`, `maintain-docs`, `review-diff`, `think-hard`, `watchdog`), porting and code-transformation (`coccinelle`, `flex-bison-to-lime`), property-based testing (`hegel`), agent-memory bootstrap (`memelord-init`), PG-specific benchmarking (`pg-numa-benchmark`), and PG community-research (`postgresq`).
 - **Agent-specific subdirectory** — Claude/Kiro/Pi/Codex/Maki native artefacts.
 
 ## MCP Server Endpoint (postgresq / agora)
