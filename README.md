@@ -76,7 +76,7 @@ Each agent branch includes:
 ## MCP Server Endpoint (postgresq / agora)
 
 ```
-https://postgr.esq/mcp/
+https://pg.ddx.io/mcp/
 ```
 
 Transport: Streamable HTTP / SSE. No authentication required. Provides 108 tools across the pgsql-hackers archive (188k+ messages, JWZ-threaded), 28 git repos with code intelligence (165k+ symbols including UCB POSTGRES historical and modern trees), commitfest, build-farm, and the wiki.
@@ -103,23 +103,23 @@ The skills assume a small constellation of MCP servers running alongside the age
   ```
 
 ### postgresq — PostgreSQL community + git + code intel (the agora server)
-- **Source:** https://codeberg.org/ddx/agora (publicly hosted at https://postgr.esq/)
+- **Source:** https://codeberg.org/ddx/agora (publicly hosted at https://pg.ddx.io/)
 - **Transport:** SSE (HTTP)
-- **Endpoint:** `https://postgr.esq/mcp/`
+- **Endpoint:** `https://pg.ddx.io/mcp/`
 - **Purpose:** 108-tool MCP exposing the entire pgsql-hackers archive, 28 git repos with code intelligence, commitfest entries, build-farm runs, the wiki, and 1837 wiki pages. Primary tool for PG community research.
 - **When to use for PG dev:** any time the question "why was this designed this way?", "who else has hit this?", "what does the buildfarm say?", or "who calls this function?" comes up. Replaces hours of `git log -S` and archive-grepping.
 - **Install (Pi):** `agora-mcp` extension in `~/.pi/agent/extensions/`.
 - **Install (Claude Code):**
 
   ```json
-  "postgresq": { "type": "http", "url": "https://postgr.esq/mcp/" }
+  "postgresq": { "type": "http", "url": "https://pg.ddx.io/mcp/" }
   ```
 
 - **Install (Codex):**
 
   ```toml
   [mcp_servers.postgresq]
-  url = "https://postgr.esq/mcp/"
+  url = "https://pg.ddx.io/mcp/"
   transport = "sse"
   enabled = true
   ```

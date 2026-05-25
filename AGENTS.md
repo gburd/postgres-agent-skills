@@ -123,7 +123,7 @@ negotiable.
 Two operating rules drawn from this:
 
 - **Never fabricate.** When you don't have a source, say so. Citations to
-  message-ids on `https://postgr.esq/m/<inbox>/<msg-id>/`, wiki URLs, or commit
+  message-ids on `https://pg.ddx.io/m/<inbox>/<msg-id>/`, wiki URLs, or commit
   SHAs in `postgres.git` are mandatory whenever a skill references community
   conventions or committer opinions.
 - **Disagree on substance, capitulate only on evidence.** If the user is
@@ -277,7 +277,7 @@ After picking your branch and reading this AGENTS.md, your agent should load:
    the hackers archive.
 
 Repository home: <https://codeberg.org/ddx/skills>.
-Operator contact: see the parent project at <https://postgr.esq/contact>.
+Operator contact: see the parent project at <https://pg.ddx.io/contact>.
 
 This file is updated as the community's collective experience with
 AI-assisted PostgreSQL development matures. Pull requests, complaints, and

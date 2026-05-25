@@ -12,7 +12,7 @@ volunteer to review a CF entry or a -hackers patch attachment.
 
 ## Goal
 
-Given a `message_id` (or a postgr.esq URL), produce:
+Given a `message_id` (or a pg.ddx.io URL), produce:
 
 1. A working directory containing the patch applied to a clean worktree.
 2. A build + test fingerprint proving the patch compiles and passes
@@ -26,7 +26,7 @@ Given a `message_id` (or a postgr.esq URL), produce:
 - `message_id` — a -hackers Message-ID (the canonical anchor). Examples:
   `<CAEze2WgX...@mail.gmail.com>`,
   `<20260520123456.foo@bar.example>`.
-- OR `postgresql_url` — `https://postgr.esq/m/<msg-id>` or
+- OR `postgresql_url` — `https://pg.ddx.io/m/<msg-id>` or
   `https://www.postgresql.org/message-id/<msg-id>`. Strip to the bare ID.
 - `cf_id` (optional) — if the patch is associated with a CF entry, pass
   this so the report cross-references cfbot status.
@@ -60,7 +60,7 @@ A markdown report with:
 
 ### 1. Resolve the message-id and fetch the message
 
-Strip URL prefixes (`https://postgr.esq/m/`,
+Strip URL prefixes (`https://pg.ddx.io/m/`,
 `https://www.postgresql.org/message-id/`, etc.) to the bare ID.
 
 ```
