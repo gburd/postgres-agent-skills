@@ -39,25 +39,25 @@ If you are an agent type not listed above, clone `other`. The shared
 
 ```bash
 # Claude Code
-git clone -b claude https://codeberg.org/postgresq/skills.git ~/.claude/skills/postgresq
+git clone -b claude https://codeberg.org/ddx/skills.git ~/.claude/skills/postgresq
 
 # Kiro CLI
-git clone -b kiro https://codeberg.org/postgresq/skills.git ~/.kiro/skills/postgresq
+git clone -b kiro https://codeberg.org/ddx/skills.git ~/.kiro/skills/postgresq
 
 # Pi
-git clone -b pi https://codeberg.org/postgresq/skills.git /tmp/skills
+git clone -b pi https://codeberg.org/ddx/skills.git /tmp/skills
 cp /tmp/skills/pi/AGENTS.md ./AGENTS.md   # Pi loads project-root AGENTS.md
 
 # Codex
-git clone -b codex https://codeberg.org/postgresq/skills.git ~/codex-skills
+git clone -b codex https://codeberg.org/ddx/skills.git ~/codex-skills
 cd ~/codex-skills && bash codex/install.sh
 
 # Maki
-git clone -b maki https://codeberg.org/postgresq/skills.git /tmp/skills
+git clone -b maki https://codeberg.org/ddx/skills.git /tmp/skills
 cp /tmp/skills/maki/plugins/agora.lua ~/.config/maki/plugins/
 
 # Any MCP client (generic)
-git clone -b other https://codeberg.org/postgresq/skills.git ~/agent-skills/postgresq
+git clone -b other https://codeberg.org/ddx/skills.git ~/agent-skills/postgresq
 ```
 
 ### Incorporate into your project
@@ -276,7 +276,7 @@ After picking your branch and reading this AGENTS.md, your agent should load:
 5. `examples/` — when learning the ergonomics of agora MCP for research over
    the hackers archive.
 
-Repository home: <https://codeberg.org/postgresq/skills>.
+Repository home: <https://codeberg.org/ddx/skills>.
 Operator contact: see the parent project at <https://postgr.esq/contact>.
 
 This file is updated as the community's collective experience with

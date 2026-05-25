@@ -11,7 +11,7 @@ License: CC0-1.0 (public domain dedication). See `LICENSE`.
 This repository uses per-agent branches. Clone the branch for your agent:
 
 ```bash
-git clone -b <agent> https://codeberg.org/postgresq/skills.git
+git clone -b <agent> https://codeberg.org/ddx/skills.git
 ```
 
 ### Available Branches
@@ -29,37 +29,37 @@ git clone -b <agent> https://codeberg.org/postgresq/skills.git
 
 **Claude Code:**
 ```bash
-git clone -b claude https://codeberg.org/postgresq/skills.git ~/.claude/skills/postgresq
+git clone -b claude https://codeberg.org/ddx/skills.git ~/.claude/skills/postgresq
 ```
 
 **Kiro:**
 ```bash
-git clone -b kiro https://codeberg.org/postgresq/skills.git ~/.kiro/skills/postgresq
+git clone -b kiro https://codeberg.org/ddx/skills.git ~/.kiro/skills/postgresq
 ```
 
 **Pi (pi.dev):**
 ```bash
-git clone -b pi https://codeberg.org/postgresq/skills.git /tmp/skills
+git clone -b pi https://codeberg.org/ddx/skills.git /tmp/skills
 cp /tmp/skills/pi/AGENTS.md ./AGENTS.md
 # Pi also reads ~/.kiro/skills/ for /skill:<name>; symlink the per-skill dirs there if desired.
 ```
 
 **OpenAI Codex:**
 ```bash
-git clone -b codex https://codeberg.org/postgresq/skills.git ~/codex-skills
+git clone -b codex https://codeberg.org/ddx/skills.git ~/codex-skills
 cd ~/codex-skills && bash codex/install.sh
 # Then paste codex/mcp_servers.toml into ~/.codex/config.toml.
 ```
 
 **Maki (tontinton/maki):**
 ```bash
-git clone -b maki https://codeberg.org/postgresq/skills.git /tmp/skills
+git clone -b maki https://codeberg.org/ddx/skills.git /tmp/skills
 cp /tmp/skills/maki/plugins/agora.lua ~/.config/maki/plugins/
 ```
 
 **Any MCP client:**
 ```bash
-git clone -b other https://codeberg.org/postgresq/skills.git /tmp/skills
+git clone -b other https://codeberg.org/ddx/skills.git /tmp/skills
 # generic/mcp-servers.json is the starting point.
 ```
 
@@ -103,7 +103,7 @@ The skills assume a small constellation of MCP servers running alongside the age
   ```
 
 ### postgresq — PostgreSQL community + git + code intel (the agora server)
-- **Source:** https://codeberg.org/postgresq/agora (publicly hosted at https://postgr.esq/)
+- **Source:** https://codeberg.org/ddx/agora (publicly hosted at https://postgr.esq/)
 - **Transport:** SSE (HTTP)
 - **Endpoint:** `https://postgr.esq/mcp/`
 - **Purpose:** 108-tool MCP exposing the entire pgsql-hackers archive, 28 git repos with code intelligence, commitfest entries, build-farm runs, the wiki, and 1837 wiki pages. Primary tool for PG community research.
