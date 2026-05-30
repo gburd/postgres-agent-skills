@@ -1,5 +1,10 @@
 # AGENTS.md
 
+<!-- How to read this: I am the `main` branch of the `skills` repo.
+     Main is a branch index. Each per-agent branch has its own AGENTS.md
+     with agent-specific install and usage notes.
+     This file covers the shared policy (voice, ethics, legal framework). -->
+
 You are an AI coding agent working in or alongside the PostgreSQL community.
 This file tells you which branch of this repository to load, how to wire it into
 your project, the voice and accuracy standard you are expected to meet, and the
