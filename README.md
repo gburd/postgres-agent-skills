@@ -22,16 +22,30 @@ the security model. Tool stubs like [`CLAUDE.md`](CLAUDE.md) just contain
 
 ## Install
 
-It is **one repository**. Clone it once into wherever your agent looks for
-skills (the path differs by agent; the content is identical):
+It is **one repository**, one copy for every agent. Clone it once:
 
 ```bash
-git clone https://github.com/gburd/postgres-agent-skills.git <your-agent-skills-dir>/postgres
+git clone https://github.com/gburd/postgres-agent-skills.git postgres-agent-skills
 ```
 
-Common skill directories: `~/.claude/skills/` (Claude Code), `~/.kiro/skills/`
-(Kiro, also read by Pi), or any path your MCP-aware agent is configured to read.
-Then point the agent at the repo-root `AGENTS.md` (most read it automatically).
+Then make it visible to your agent by putting it where that agent looks for
+skills — move the clone there, or symlink it. The content is identical; only
+the location differs:
+
+| Agent | Put it here |
+|-------|-------------|
+| Claude Code | `~/.claude/skills/postgres` |
+| Kiro (and Pi, which reads Kiro's dir) | `~/.kiro/skills/postgres` |
+| Any other MCP-aware agent | whatever skills directory it is configured to read |
+
+For example, to drop it into Claude Code's skills directory:
+
+```bash
+git clone https://github.com/gburd/postgres-agent-skills.git ~/.claude/skills/postgres
+```
+
+Finally, point the agent at the repo-root `AGENTS.md` (most read it
+automatically; `CLAUDE.md` is a stub that just imports it).
 
 ## What's inside
 

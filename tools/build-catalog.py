@@ -330,20 +330,28 @@ def build():
 </section>
 
 <h2 id="install">Install</h2>
-<p>It is <strong>one repository</strong>, written once for every agent (Agent
-Skills Open Standard: <code>&lt;collection&gt;/&lt;skill&gt;/SKILL.md</code> with YAML
-front matter; no per-agent branches, no per-agent copies). Clone it once into
-wherever your agent looks for skills — only the destination path differs by
-agent, the content is identical:</p>
-<pre><code>git clone {GITHUB}.git &lt;your-agent-skills-dir&gt;/postgres</code></pre>
-<p>Common skill directories: <code>~/.claude/skills/</code> (Claude Code),
-<code>~/.kiro/skills/</code> (Kiro, also read by Pi), or any path your MCP-aware
-agent is configured to read. Then point your agent at <code>AGENTS.md</code> at
-the repo root (tool stubs like <code>CLAUDE.md</code> just contain
-<code>@AGENTS.md</code>). Topic collections: <code>postgres/</code>,
-<code>tooling/</code>, <code>ai-life-skills/</code>, <code>steering/</code>;
-shared knowledge in <code>community/</code>, <code>generic/</code>,
-<code>examples/</code>.</p>
+<p>It is <strong>one repository</strong>, one copy for every agent (Agent Skills
+Open Standard: <code>&lt;collection&gt;/&lt;skill&gt;/SKILL.md</code> with YAML front
+matter; no per-agent branches, no per-agent copies). Clone it once:</p>
+<pre><code>git clone {GITHUB}.git postgres-agent-skills</code></pre>
+<p>Then make it visible to your agent by putting it where that agent looks for
+skills (move the clone there, or symlink it). The content is identical; only the
+location differs:</p>
+<table>
+  <thead><tr><th>Agent</th><th>Put it here</th></tr></thead>
+  <tbody>
+    <tr><td>Claude Code</td><td><code>~/.claude/skills/postgres</code></td></tr>
+    <tr><td>Kiro (and Pi, which reads Kiro's dir)</td><td><code>~/.kiro/skills/postgres</code></td></tr>
+    <tr><td>Any other MCP-aware agent</td><td>whatever skills directory it is configured to read</td></tr>
+  </tbody>
+</table>
+<p>For example, straight into Claude Code's skills directory:</p>
+<pre><code>git clone {GITHUB}.git ~/.claude/skills/postgres</code></pre>
+<p>Finally, point your agent at <code>AGENTS.md</code> at the repo root (most read
+it automatically; <code>CLAUDE.md</code> is a stub that imports it). Topic
+collections: <code>postgres/</code>, <code>tooling/</code>,
+<code>ai-life-skills/</code>, <code>steering/</code>; shared knowledge in
+<code>community/</code>, <code>generic/</code>, <code>examples/</code>.</p>
 
 <h2 id="skills">Skills</h2>
 {skills_html}
