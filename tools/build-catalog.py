@@ -22,10 +22,38 @@ OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "site"
 GITHUB = "https://github.com/gburd/postgres-agent-skills"
 CODEBERG = "https://codeberg.org/ddx/skills"
 
-# Skills that are documentation/shared, not loadable skill dirs, are skipped.
-SKIP_DIRS = {".git", ".githooks", "tools", "community", "generic", "examples",
-             "site", "claude", "codex", "kiro", "pi", "maki", "hermes", "other",
-             "assets"}
+# The three skill collections, in presentation order, with a blurb each.
+COLLECTIONS = [
+    ("postgres", "PostgreSQL skills",
+     "Grouped by how you interact with the database. Load the persona that "
+     "matches your role."),
+    ("tooling", "Tooling",
+     "Integration with the tools you use while developing code for PostgreSQL. "
+     "Secondary to the Postgres skills."),
+    ("ai-life-skills", "AI life skills",
+     "Generic, domain-agnostic agent habits, offered as a standalone set."),
+]
+
+# Old path/anchor -> new, for redirect stubs on the Pages site (the repo was
+# restructured from flat skills + per-agent branches to nested collections on a
+# single branch). Each old anchor gets a tiny HTML page that meta-refreshes to
+# the new catalog location.
+REDIRECTS = {
+    "postgres-best-practices": "#collection-postgres",
+    "memelord-init": "#skill-ai-life-skills-persistent-memory",
+    "btw": "#skill-ai-life-skills-btw",
+    "checkpoint": "#skill-ai-life-skills-checkpoint",
+    "dream": "#skill-ai-life-skills-dream",
+    "maintain-docs": "#skill-ai-life-skills-maintain-docs",
+    "think-hard": "#skill-ai-life-skills-think-hard",
+    "watchdog": "#skill-ai-life-skills-watchdog",
+    "coccinelle": "#skill-tooling-coccinelle",
+    "flex-bison-to-lime": "#skill-tooling-flex-bison-to-lime",
+    "hegel": "#skill-tooling-hegel",
+    "pg-numa-benchmark": "#skill-tooling-pg-numa-benchmark",
+    "postgresq": "#skill-tooling-postgresq",
+    "review-diff": "#skill-tooling-review-diff",
+}
 
 
 def parse_frontmatter(md_path):
@@ -53,23 +81,33 @@ def _scalar(fm, key):
 
 
 def discover_skills():
-    skills = []
-    for entry in sorted(REPO.iterdir()):
-        if not entry.is_dir() or entry.name in SKIP_DIRS or entry.name.startswith("."):
+    """Walk each collection one level deep for <collection>/<skill>/SKILL.md."""
+    groups = []
+    for coll, title, blurb in COLLECTIONS:
+        base = REPO / coll
+        if not base.is_dir():
             continue
-        skill_md = entry / "SKILL.md"
-        if not skill_md.exists():
-            continue
-        name, desc = parse_frontmatter(skill_md)
-        if not name:
-            continue
-        skills.append({"dir": entry.name, "name": name, "desc": desc or ""})
-    return skills
+        skills = []
+        for entry in sorted(base.iterdir()):
+            if not entry.is_dir():
+                continue
+            skill_md = entry / "SKILL.md"
+            if not skill_md.exists():
+                continue
+            name, desc = parse_frontmatter(skill_md)
+            if not name:
+                continue
+            skills.append({"coll": coll, "dir": entry.name,
+                           "name": name, "desc": desc or ""})
+        if skills:
+            groups.append({"coll": coll, "title": title,
+                           "blurb": blurb, "skills": skills})
+    return groups
 
 
 def rule_index():
-    """Parse postgres-best-practices/references/_sections.md into categories."""
-    sec = REPO / "postgres-best-practices" / "references" / "_sections.md"
+    """Parse postgres/best-practices/references/_sections.md into categories."""
+    sec = REPO / "postgres" / "best-practices" / "references" / "_sections.md"
     if not sec.exists():
         return []
     cats = []
@@ -97,13 +135,26 @@ def esc(s):
 
 
 def card(skill):
-    gh = f"{GITHUB}/blob/main/{skill['dir']}/SKILL.md"
+    gh = f"{GITHUB}/blob/main/{skill['coll']}/{skill['dir']}/SKILL.md"
+    anchor = f"skill-{skill['coll']}-{skill['dir']}"
     return f"""
-      <article class="card" id="skill-{esc(skill['dir'])}">
+      <article class="card" id="{esc(anchor)}">
         <h3><code>{esc(skill['name'])}</code></h3>
         <p>{esc(skill['desc'])}</p>
         <p class="meta"><a href="{gh}">SKILL.md →</a></p>
       </article>"""
+
+
+def groups_section(groups):
+    blocks = []
+    for g in groups:
+        cards = "\n".join(card(s) for s in g["skills"])
+        blocks.append(f"""
+<h3 id="collection-{esc(g['coll'])}">{esc(g['title'])} <span class="muted">({len(g['skills'])})</span></h3>
+<p class="muted">{esc(g['blurb'])}</p>
+<div class="grid">{cards}
+</div>""")
+    return "\n".join(blocks)
 
 
 def rules_section(cats):
@@ -128,10 +179,11 @@ def rules_section(cats):
 
 
 def build():
-    skills = discover_skills()
+    groups = discover_skills()
     cats = rule_index()
     total_rules = sum(len(c["rules"]) for c in cats)
-    cards = "\n".join(card(s) for s in skills)
+    total_skills = sum(len(g["skills"]) for g in groups)
+    skills_html = groups_section(groups)
     rules_html = rules_section(cats)
 
     page = f"""<!DOCTYPE html>
@@ -178,7 +230,7 @@ def build():
   <p class="lead">Pre-built skills and knowledge for AI coding agents working on PostgreSQL —
   from database application best practices to community patch work.</p>
   <p>
-    <span class="pill">{len(skills)} skills</span>
+    <span class="pill">{total_skills} skills</span>
     <span class="pill">{total_rules} best-practice rules</span>
     <span class="pill">CC0-1.0 · public domain</span>
     <span class="pill"><a href="{GITHUB}">GitHub</a></span>
@@ -194,23 +246,25 @@ def build():
 </section>
 
 <h2 id="install">Install</h2>
-<p>The repository uses one branch per supported agent. Clone the branch for yours:</p>
-<pre><code>git clone -b claude {GITHUB}.git ~/.claude/skills/postgres
-git clone -b kiro   {GITHUB}.git ~/.kiro/skills/postgres
-git clone -b pi     {GITHUB}.git ~/.pi/skills
-git clone -b other  {GITHUB}.git ~/agent-skills   # any MCP-aware agent</code></pre>
-<p>Branches: <code>claude</code>, <code>kiro</code>, <code>pi</code>, <code>codex</code>,
-<code>maki</code>, <code>hermes</code>, <code>other</code>. Shared content
-(<code>community/</code>, <code>generic/</code>, <code>examples/</code>) ships on every branch.</p>
+<p>Skills are written once for every agent (Agent Skills Open Standard:
+<code>&lt;collection&gt;/&lt;skill&gt;/SKILL.md</code> with YAML front matter). There are no
+per-agent branches; clone the one repository into your agent's skills directory:</p>
+<pre><code>git clone {GITHUB}.git ~/.claude/skills/postgres   # Claude Code
+git clone {GITHUB}.git ~/.kiro/skills/postgres     # Kiro / Pi (reads ~/.kiro/skills)
+git clone {GITHUB}.git ~/agent-skills/postgres     # any MCP-aware agent</code></pre>
+<p>Point your agent at <code>AGENTS.md</code> at the repo root (tool stubs like
+<code>CLAUDE.md</code> just contain <code>@AGENTS.md</code>). Collections:
+<code>postgres/</code>, <code>tooling/</code>, <code>ai-life-skills/</code>; shared
+knowledge in <code>community/</code>, <code>generic/</code>, <code>examples/</code>.</p>
 
 <h2 id="skills">Skills</h2>
-<div class="grid">{cards}
-</div>
+{skills_html}
 
 <h2 id="best-practices">postgres-best-practices rules</h2>
-<p>The <code>postgres-best-practices</code> skill is a ruleset for Postgres running anywhere.
-Each rule names an antipattern, shows the fix in runnable SQL, and cites the canonical
-PostgreSQL documentation that informed it. {total_rules} rules in {len(cats)} categories:</p>
+<p>The <code>postgres/best-practices</code> library is the shared ruleset the role
+personas cite. Each rule names an antipattern, shows the fix in runnable SQL, and
+cites the canonical PostgreSQL documentation that informed it. {total_rules} rules
+in {len(cats)} categories:</p>
 {rules_html}
 
 <h2 id="sources">Sources &amp; cross-references</h2>
@@ -236,11 +290,11 @@ removals, and arguments are all welcome.</p>
 <ul>
   <li><strong>Open an issue</strong> (a question, a bug in a rule, a missing topic):
   <a href="{GITHUB}/issues/new">{GITHUB}/issues/new</a></li>
-  <li><strong>Open a pull request</strong> (fix or add a rule/skill): fork, branch from the
-  <em>agent branch</em> you target (<code>claude</code>, <code>pi</code>, …; shared content is
-  cherry-picked across), and open a PR at
+  <li><strong>Open a pull request</strong> (fix or add a rule/skill): fork, make the
+  change on <code>main</code>, and open a PR at
   <a href="{GITHUB}/pulls">{GITHUB}/pulls</a>. One rule per file, cite a canonical
-  <code>postgresql.org</code> reference, keep it CC0.</li>
+  <code>postgresql.org</code> reference, keep it CC0. (Skills are written once for all
+  agents — no per-agent branches.)</li>
   <li>The canonical source of truth is Codeberg
   (<a href="{CODEBERG}">{CODEBERG}</a>); GitHub is a mirror, but issues and PRs on either are read.</li>
 </ul>
@@ -257,7 +311,21 @@ removals, and arguments are all welcome.</p>
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "index.html").write_text(page, encoding="utf-8")
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
-    print(f"wrote {OUT/'index.html'} — {len(skills)} skills, {total_rules} rules")
+    # Old-name redirect stubs: the repo was restructured; keep old deep links
+    # working with a tiny meta-refresh page under skills/<old-name>/.
+    n_redir = 0
+    for old, target in REDIRECTS.items():
+        d = OUT / "skills" / old
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "index.html").write_text(
+            f'<!doctype html><meta charset="utf-8">'
+            f'<title>moved</title>'
+            f'<meta http-equiv="refresh" content="0; url=/postgres-agent-skills/{target}">'
+            f'<link rel="canonical" href="/postgres-agent-skills/{target}">'
+            f'<p>This skill moved. <a href="/postgres-agent-skills/{target}">Go to the catalogue</a>.</p>\n',
+            encoding="utf-8")
+        n_redir += 1
+    print(f"wrote {OUT/'index.html'} — {total_skills} skills, {total_rules} rules, {n_redir} redirects")
 
 
 if __name__ == "__main__":

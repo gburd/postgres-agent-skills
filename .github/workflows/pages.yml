@@ -1,16 +1,17 @@
 name: Build & deploy skills catalog to GitHub Pages
 
 # The catalog is generated from the skill files by tools/build-catalog.py.
-# Agent branches (pi, claude, …) carry the full skill set; `main` is only the
-# shared index. We build from `pi` (the reference full branch) so the catalog
-# always reflects every skill. Trigger on pushes to pi, and allow manual runs.
+# Skills are written once for every agent on a single branch (main); there are
+# no per-agent branches. Build from main on push, and allow manual runs.
 
 on:
   push:
-    branches: [pi]
+    branches: [main]
     paths:
       - "**/SKILL.md"
-      - "postgres-best-practices/**"
+      - "postgres/**"
+      - "tooling/**"
+      - "ai-life-skills/**"
       - "tools/build-catalog.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
@@ -28,10 +29,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the full-skill branch (pi)
+      - name: Check out
         uses: actions/checkout@v4
-        with:
-          ref: pi
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

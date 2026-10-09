@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "agora-postgresql": {
+      "url": "https://postgr.esq/mcp/",
+      "transport": "streamable-http",
+      "description": "PostgreSQL community mailing list archives, source code intelligence, and development history via the Agora MCP server."
+    }
+  }
+}
