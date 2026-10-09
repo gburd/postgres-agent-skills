@@ -1,13 +1,35 @@
 ---
 name: pg-numa-benchmark
-description: Run PostgreSQL clock sweep benchmarks on bare-metal EC2 instances. Covers AWS setup, instance launch (r8i.metal-96xl / m6i.metal), OS tuning, PG build (stock + patched), pgbench A/B testing, HammerDB TPC-C, and result collection. Use when benchmarking PostgreSQL buffer manager changes on NUMA hardware.
+description: >
+  Run PostgreSQL buffer-manager (clock-sweep) A/B benchmarks on NUMA hardware:
+  stock vs patched, under memory pressure (shared_buffers < dataset), with
+  pgbench and HammerDB TPC-C. Covers the PostgreSQL-specific build, data load,
+  shared_buffers sizing, --with-libnuma, run matrix, and result collection.
+  Use when benchmarking PostgreSQL buffer-manager changes on NUMA hardware. The
+  generic substrate — choosing an instance, OS tuning, and the A/B measurement
+  methodology — lives in the choose-instance, tune-os-for-benchmark, and
+  benchmark skills; this layers the PostgreSQL specifics on top.
+license: CC0-1.0
+metadata:
+  author: ddx
+  version: "0.2.0"
 ---
 
 ## Overview
 
-A/B benchmark comparing stock vs patched PostgreSQL on bare-metal NUMA instances. Tests clock sweep contention under memory pressure (shared_buffers < dataset).
+A/B benchmark comparing stock vs patched PostgreSQL on NUMA hardware. Tests
+clock-sweep contention under memory pressure (shared_buffers < dataset).
 
-## Quick Reference
+This skill is the **PostgreSQL layer**. For the substrate, use first:
+
+- [`../choose-instance`](../choose-instance/SKILL.md) — pick a NUMA-faithful
+  (usually bare-metal) instance; the table below is an example short-list.
+- [`../tune-os-for-benchmark`](../tune-os-for-benchmark/SKILL.md) — governor,
+  hugepages, `kernel.numa_balancing=0`, filesystem, quiescing jitter.
+- [`../benchmark`](../benchmark/SKILL.md) — A/B alternation, warm-up,
+  repetitions, variance, machine-readable results (local or over SSH).
+
+## Example instance short-list (NUMA-faithful, bare-metal)
 
 | Instance | vCPUs | NUMA Nodes | RAM | Cost/hr | Use |
 |----------|-------|------------|-----|---------|-----|

@@ -2,7 +2,7 @@
 # Gitleaks pre-commit hook. Blocks commits that introduce secret material.
 # Skip with `git commit --no-verify` only if you understand the risk.
 #
-# Provenance: postgresq/skills; configure with `git config core.hooksPath .githooks`.
+# Provenance: ddx/skills; configure with `git config core.hooksPath .githooks`.
 
 set -euo pipefail
 

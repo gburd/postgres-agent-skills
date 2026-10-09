@@ -47,13 +47,34 @@ REDIRECTS = {
     "maintain-docs": "#skill-ai-life-skills-maintain-docs",
     "think-hard": "#skill-ai-life-skills-think-hard",
     "watchdog": "#skill-ai-life-skills-watchdog",
+    "stop-slop": "#skill-ai-life-skills-stop-slop",
+    "subagent-teams": "#skill-ai-life-skills-subagent-teams",
     "coccinelle": "#skill-tooling-coccinelle",
     "flex-bison-to-lime": "#skill-tooling-flex-bison-to-lime",
     "hegel": "#skill-tooling-hegel",
     "pg-numa-benchmark": "#skill-tooling-pg-numa-benchmark",
-    "postgresq": "#skill-tooling-postgresq",
+    "postgresq": "#skill-tooling-agora",
+    "aws-benchmark": "#skill-tooling-benchmark",
     "review-diff": "#skill-tooling-review-diff",
 }
+
+# Third-party skills/MCPs worth adding but NOT bundled (different owners and
+# licenses). Listed on the catalogue as suggestions.
+SUGGESTED = [
+    ("ponytail", "https://github.com/DietrichGebert/ponytail",
+     "cross-agent 'lazy senior dev' ruleset that forces the simplest working "
+     "solution (YAGNI, stdlib-first)."),
+    ("superpowers", "https://github.com/obra/superpowers",
+     "a spec -> plan -> TDD -> subagent-execution methodology; the "
+     "brainstorming, writing-plans, test-driven-development, and "
+     "dispatching-parallel-agents skills fill real gaps."),
+    ("agent-skill-manager (asm)", "https://www.npmjs.com/package/agent-skill-manager",
+     "interactive cross-agent skill install/search/audit/dedup across "
+     "Claude/Kiro/Pi/others."),
+    ("memelord", "https://github.com/earendil-works/memelord",
+     "persistent cross-session memory MCP; pairs with the persistent-memory "
+     "skill."),
+]
 
 
 def parse_frontmatter(md_path):
@@ -178,13 +199,75 @@ def rules_section(cats):
     return "\n".join(blocks)
 
 
+def steering_index():
+    """Flat steering/*.md (not SKILL.md dirs): H1 title + first paragraph."""
+    base = REPO / "steering"
+    if not base.is_dir():
+        return []
+    out = []
+    for p in sorted(base.glob("*.md")):
+        if p.name == "README.md":
+            continue
+        text = p.read_text(encoding="utf-8")
+        title = next((l[2:].strip() for l in text.splitlines()
+                      if l.startswith("# ")), p.stem)
+        # first non-blank, non-heading line as the blurb
+        blurb = ""
+        body = text.split("---", 2)[-1] if text.startswith("---") else text
+        for l in body.splitlines():
+            s = l.strip()
+            if s and not s.startswith("#"):
+                blurb = s
+                break
+        out.append((p.stem, title, blurb))
+    return out
+
+
+def steering_section(items):
+    if not items:
+        return ""
+    rows = "\n".join(
+        f'          <tr><td><a href="{GITHUB}/blob/main/steering/{esc(stem)}.md">'
+        f'<code>{esc(stem)}</code></a></td><td>{esc(blurb)}</td></tr>'
+        for stem, _title, blurb in items)
+    return f"""
+<p>Always-on rules an agent reads at the start of every session (as opposed to
+skills, which load on demand). The universal files load everywhere; the domain
+files (e.g. <code>postgresql</code>) are opt-in per project. See
+<a href="{GITHUB}/blob/main/steering/README.md">steering/README.md</a> for how to
+wire these into Claude Code, Kiro, Pi, or any AGENTS.md-based agent, and how to
+set up your environment for the best agentic results.</p>
+<table>
+  <thead><tr><th>File</th><th>Governs</th></tr></thead>
+  <tbody>
+{rows}
+  </tbody>
+</table>"""
+
+
+def suggested_section():
+    rows = "\n".join(
+        f'  <li><a href="{esc(url)}">{esc(name)}</a> \u2014 {esc(desc)}</li>'
+        for name, url, desc in SUGGESTED)
+    return f"""
+<p>These third-party skill sets and MCP servers are worth adding but are
+<strong>not bundled</strong> here (different owners and licenses). Install the
+ones you want:</p>
+<ul>
+{rows}
+</ul>"""
+
+
 def build():
     groups = discover_skills()
     cats = rule_index()
+    steer = steering_index()
     total_rules = sum(len(c["rules"]) for c in cats)
     total_skills = sum(len(g["skills"]) for g in groups)
     skills_html = groups_section(groups)
     rules_html = rules_section(cats)
+    steering_html = steering_section(steer)
+    suggested_html = suggested_section()
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -231,6 +314,7 @@ def build():
   from database application best practices to community patch work.</p>
   <p>
     <span class="pill">{total_skills} skills</span>
+    <span class="pill">{len(steer)} steering files</span>
     <span class="pill">{total_rules} best-practice rules</span>
     <span class="pill">CC0-1.0 · public domain</span>
     <span class="pill"><a href="{GITHUB}">GitHub</a></span>
@@ -260,12 +344,18 @@ knowledge in <code>community/</code>, <code>generic/</code>, <code>examples/</co
 <h2 id="skills">Skills</h2>
 {skills_html}
 
+<h2 id="steering">Steering</h2>
+{steering_html}
+
 <h2 id="best-practices">postgres-best-practices rules</h2>
 <p>The <code>postgres/best-practices</code> library is the shared ruleset the role
 personas cite. Each rule names an antipattern, shows the fix in runnable SQL, and
 cites the canonical PostgreSQL documentation that informed it. {total_rules} rules
 in {len(cats)} categories:</p>
 {rules_html}
+
+<h2 id="suggested">Suggested external skills &amp; MCPs</h2>
+{suggested_html}
 
 <h2 id="sources">Sources &amp; cross-references</h2>
 <p>Every rule and skill is written from scratch in original words and dedicated to the public

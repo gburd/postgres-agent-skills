@@ -7,6 +7,8 @@ PostgreSQL-specific; they are offered as a standalone set.
 | Skill | Use for |
 |-------|---------|
 | [`persistent-memory/`](persistent-memory/SKILL.md) | choose and use a cross-session memory store (memelord, an MCP memory server, or a notes file) so lessons survive between sessions |
+| [`stop-slop/`](stop-slop/SKILL.md) | remove the tells of AI-written prose from anything shipping under a human's name (commits, PRs, docs, comments) |
+| [`subagent-teams/`](subagent-teams/SKILL.md) | run coordinated sub-agent teams (worker → reviewer → re-reviewer), parallelize independent work, and debug a sub-agent that dies on dispatch |
 | [`btw/`](btw/SKILL.md) | handle a quick aside without losing the thread of the current task |
 | [`checkpoint/`](checkpoint/SKILL.md) | summarise progress — done, remaining, blockers — between tasks or when context grows long |
 | [`dream/`](dream/SKILL.md) | brainstorm an idea or approach freely, without writing code |

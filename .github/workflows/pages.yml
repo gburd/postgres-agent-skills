@@ -12,6 +12,7 @@ on:
       - "postgres/**"
       - "tooling/**"
       - "ai-life-skills/**"
+      - "steering/**"
       - "tools/build-catalog.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:

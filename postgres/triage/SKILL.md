@@ -100,7 +100,7 @@ that smell like corruption.
 When a log line is not in any runbook: capture it verbatim with surrounding
 context, note what changed just before (a deploy, an upgrade, a config
 reload, a backup, a reboot that re-enabled timers and reset runtime
-overrides), and `postgres-tooling`'s `postgresq` research skill to search the
+overrides), and the `agora` research skill in `../../tooling/agora/` to search the
 pgsql-hackers archive for the exact error text — someone has usually hit it.
 Record the finding so the next incident is not a first encounter.
 

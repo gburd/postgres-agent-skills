@@ -55,19 +55,41 @@ PostgreSQL docs.
 
 ### 2. [`tooling/`](tooling/README.md) — develop Postgres code
 
-`postgresq` (pgsql-hackers + git research via the agora MCP), `coccinelle`,
+`agora` (pgsql-hackers + git research via the agora MCP), `coccinelle`,
 `flex-bison-to-lime`, `hegel`, `pg-numa-benchmark`, `review-diff`.
 
 ### 3. [`ai-life-skills/`](ai-life-skills/README.md) — generic agent habits
 
-`persistent-memory` (tool-agnostic cross-session memory), `btw`, `checkpoint`,
-`dream`, `maintain-docs`, `think-hard`, `watchdog`.
+`persistent-memory` (tool-agnostic cross-session memory), `stop-slop`,
+`subagent-teams`, `btw`, `checkpoint`, `dream`, `maintain-docs`, `think-hard`,
+`watchdog`.
+
+### Steering — the always-on rules
+
+[`steering/`](steering/README.md) holds the baseline rules an agent reads at
+the start of every session (as opposed to skills, which load on demand): the
+universal set (`must-rules`, `coding-standards`, `workflow`, `voice`,
+`prose-mechanics`, `opinions`, `tools`) plus a domain file
+([`steering/postgresql.md`](steering/postgresql.md)) you load only in Postgres
+projects. [`steering/README.md`](steering/README.md) explains how to wire these
+into Claude Code / Kiro / Pi / any AGENTS.md agent, and **how to set up your
+environment for the best agentic results** (persistent memory, the agora MCP, a
+version-matched docs source, executable checks, scoped context).
 
 Shared PostgreSQL community knowledge: [`community/`](community/) (conventions,
 committer "voices", review standards), [`examples/`](examples/),
 [`generic/`](generic/).
 
-## MCP server endpoint (agora / postgresq)
+## Suggested external skills & MCPs (not bundled)
+
+Worth adding to your setup, but kept out of this repo (different owners and
+licenses): [ponytail](https://github.com/DietrichGebert/ponytail) (lazy-senior-dev
+ruleset), [superpowers](https://github.com/obra/superpowers) (spec → plan → TDD →
+subagent methodology), [agent-skill-manager](https://www.npmjs.com/package/agent-skill-manager)
+(cross-agent skill management), and [memelord](https://github.com/earendil-works/memelord)
+(persistent-memory MCP). Install the ones you want.
+
+## MCP server endpoint (agora)
 
 ```
 https://pg.ddx.io/mcp/
@@ -75,7 +97,7 @@ https://pg.ddx.io/mcp/
 
 Streamable HTTP / SSE, no auth. Indexes the pgsql-hackers archive, 28 git repos
 with code intelligence, commitfest, build-farm, and the wiki. Drives the
-`postgresq` tooling skill. See [`generic/mcp-servers.json`](generic/mcp-servers.json)
+`agora` tooling skill. See [`generic/mcp-servers.json`](generic/mcp-servers.json)
 for a manifest including other useful MCPs (memelord, github, filesystem,
 context7, sequential-thinking).
 

@@ -36,14 +36,24 @@ then generic agent habits. Three collections:
    - [`postgres/best-practices`](postgres/best-practices/SKILL.md) — the shared 41-rule library the personas cite.
 
 2. **[`tooling/`](tooling/README.md) — integration for developing Postgres
-   code.** `postgresq` (pgsql-hackers + git research via the agora MCP),
+   code.** `agora` (pgsql-hackers + git research via the agora MCP),
    `coccinelle`, `flex-bison-to-lime`, `hegel`, `pg-numa-benchmark`,
    `review-diff`. Secondary to the Postgres skills: used in service of a
    Postgres task.
 
 3. **[`ai-life-skills/`](ai-life-skills/README.md) — generic agent habits**,
-   offered as a standalone set: `persistent-memory`, `btw`, `checkpoint`,
-   `dream`, `maintain-docs`, `think-hard`, `watchdog`.
+   offered as a standalone set: `persistent-memory`, `stop-slop`,
+   `subagent-teams`, `btw`, `checkpoint`, `dream`, `maintain-docs`,
+   `think-hard`, `watchdog`.
+
+**Steering** — [`steering/`](steering/README.md) holds the always-on rules
+(loaded every session, as opposed to skills which load on demand): a universal
+set (`must-rules`, `coding-standards`, `workflow`, `voice`, `prose-mechanics`,
+`opinions`, `tools`) and a domain file ([`steering/postgresql.md`](steering/postgresql.md))
+loaded only in Postgres projects. `steering/README.md` explains how to wire
+steering into any agent and how to set up the environment (persistent memory,
+the agora MCP, version-matched docs, executable checks) for the best results.
+This AGENTS.md is itself the top-level steering map.
 
 Shared PostgreSQL community knowledge lives in
 [`community/`](community/) (conventions, committer "voices", review standards)
@@ -54,7 +64,8 @@ and worked research examples in [`examples/`](examples/) and
 
 Match the task to a persona first (`postgres/<persona>`), pull in the specific
 best-practice rules it cites, reach for a `tooling/` skill when the task needs
-one, and keep `ai-life-skills/persistent-memory` running the whole time.
+one, keep the relevant `steering/` rules loaded, and keep
+`ai-life-skills/persistent-memory` running the whole time.
 
 ---
 

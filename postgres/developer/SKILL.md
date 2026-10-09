@@ -31,8 +31,8 @@ manager, locking); preparing a patch series for pgsql-hackers.
 
 ## Rule of first resort: research before you code
 
-Before `grep`/web-search/guessing, use the `postgresq` MCP research skill
-(`../../tooling/postgresq/`): it indexes the pgsql-hackers archive + `master`
+Before `grep`/web-search/guessing, use the `agora` MCP research skill
+(`../../tooling/agora/`): it indexes the pgsql-hackers archive + `master`
 git history with author/thread metadata. Patch-design questions, symbol
 lookups, "has this been proposed/rejected before", commit↔thread correlation —
 ask it first. Half the time someone already proposed the thing; understanding

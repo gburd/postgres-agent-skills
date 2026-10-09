@@ -1,4 +1,4 @@
-# Repo-local gitleaks allowlist for postgresq/skills.
+# Repo-local gitleaks allowlist for ddx/skills.
 #
 # The default rule set is sourced from gitleaks itself; this file ONLY
 # documents project-specific false-positive exceptions.
@@ -6,14 +6,14 @@
 # To re-baseline after adding rules:
 #     gitleaks detect --config=.gitleaks.toml --no-banner --redact
 
-title = "postgresq false-positive allowlist"
+title = "ddx/skills false-positive allowlist"
 
 [extend]
 # Inherit gitleaks' default rules.
 useDefault = true
 
 [allowlist]
-description = "postgresq local exceptions"
+description = "ddx/skills local exceptions"
 
 # sops-encrypted blobs. Each value is ENC[AES256_GCM,...]; treat the file
 # as opaque ciphertext.
