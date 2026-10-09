@@ -6,6 +6,11 @@ The repository is structured as one branch per supported agent. Each branch ship
 
 License: CC0-1.0 (public domain dedication). See `LICENSE`.
 
+**Source of truth:** Codeberg — <https://codeberg.org/ddx/skills>.
+**Mirror:** GitHub — <https://github.com/gburd/postgres-agent-skills> (a browsable
+catalogue of every skill is generated to GitHub Pages from the `pi` branch).
+Issues and PRs on either forge are read; see [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Branch Strategy
 
 This repository uses per-agent branches. Clone the branch for your agent:
@@ -18,12 +23,13 @@ git clone -b <agent> https://codeberg.org/ddx/skills.git
 
 | Branch | Contents |
 |--------|----------|
-| `claude` | Claude Code skills + 13 operator skills (`<skill>/SKILL.md` w/ frontmatter) + shared content |
-| `kiro` | Kiro specs + 13 operator skills (same frontmatter format) + shared content |
-| `pi` | Pi (pi.dev) AGENTS.md + 13 operator skills (Pi reads `~/.kiro/skills/`) + shared content |
-| `codex` | OpenAI Codex prompts + 13 operator skills (no frontmatter) + `codex/install.sh` + `codex/mcp_servers.toml` + shared content |
-| `maki` | Maki Lua plugin + 13 operator skills as agent context + shared content |
-| `other` | Shared content + 13 operator skills, generic markdown for any MCP-aware agent |
+| `claude` | Claude Code skills + 14 operator skills (`<skill>/SKILL.md` w/ frontmatter) + shared content |
+| `kiro` | Kiro specs + 14 operator skills (same frontmatter format) + shared content |
+| `pi` | Pi (pi.dev) AGENTS.md + 14 operator skills (Pi reads `~/.kiro/skills/`) + shared content |
+| `codex` | OpenAI Codex prompts + 14 operator skills (no frontmatter) + `codex/install.sh` + `codex/mcp_servers.toml` + shared content |
+| `maki` | Maki Lua plugin + 14 operator skills as agent context + shared content |
+| `hermes` | Hermes skills + 14 operator skills + shared content |
+| `other` | Shared content + 14 operator skills, generic markdown for any MCP-aware agent |
 
 ### Quick Install
 
@@ -70,7 +76,7 @@ Each agent branch includes:
 - **generic/** — MCP client config and step-by-step workflows for common research tasks.
 - **community/** — PostgreSQL community knowledge base (40 years of encoded conventions, review standards, communication norms).
 - **examples/** — Worked examples showing research patterns end-to-end.
-- **13 operator skills** at branch root — workflow meta (`btw`, `checkpoint`, `dream`, `maintain-docs`, `review-diff`, `think-hard`, `watchdog`), porting and code-transformation (`coccinelle`, `flex-bison-to-lime`), property-based testing (`hegel`), agent-memory bootstrap (`memelord-init`), PG-specific benchmarking (`pg-numa-benchmark`), and PG community-research (`postgresq`).
+- **14 operator skills** at branch root — workflow meta (`btw`, `checkpoint`, `dream`, `maintain-docs`, `review-diff`, `think-hard`, `watchdog`), porting and code-transformation (`coccinelle`, `flex-bison-to-lime`), property-based testing (`hegel`), agent-memory bootstrap (`memelord-init`), PG-specific benchmarking (`pg-numa-benchmark`), PG community-research (`postgresq`), and PG application best-practices (`postgres-best-practices` — 41 cross-referenced rules).
 - **Agent-specific subdirectory** — Claude/Kiro/Pi/Codex/Maki native artefacts.
 
 ## MCP Server Endpoint (postgresq / agora)

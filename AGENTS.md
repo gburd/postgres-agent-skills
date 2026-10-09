@@ -281,7 +281,8 @@ After picking your branch and reading this AGENTS.md, your agent should load:
 5. `examples/` — when learning the ergonomics of agora MCP for research over
    the hackers archive.
 
-Repository home: <https://codeberg.org/ddx/skills>.
+Repository home (source of truth): <https://codeberg.org/ddx/skills>.
+GitHub mirror + Pages catalogue: <https://github.com/gburd/postgres-agent-skills>.
 Operator contact: see the parent project at <https://pg.ddx.io/contact>.
 
 This file is updated as the community's collective experience with
