@@ -9,7 +9,7 @@ It extends the universal steering (`must-rules.md`, `coding-standards.md`,
 ## Rule of first resort: research before you code
 
 Before `grep`, `rg`, web search, or asking the human for context, consult a
-PostgreSQL community/codebase research tool (the `agora` MCP skill, if
+PostgreSQL community/codebase research tool (the `pg-ddx-research` skill and the pg.ddx.io MCP server, if
 configured, indexes the pgsql-hackers archive plus the upstream git history
 with author/date/thread metadata):
 

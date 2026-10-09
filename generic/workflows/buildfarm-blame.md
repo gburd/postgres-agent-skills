@@ -291,11 +291,7 @@ Action: prepare s390x fix for dragonet; nothing else owed.
 
 ## Sources
 
-- agora MCP tool definitions:
-  `agora/pkg/mcp/tools_buildfarm.go`,
-  `agora/pkg/mcp/tools_build_status.go`,
-  `agora/pkg/mcp/tools_pg.go`,
-  `agora/pkg/mcp/tools_git.go` —
+- pg.ddx.io MCP tool reference: <https://pg.ddx.io/mcp-tools> —
   authoritative names + parameters for every verb cited above.
 - buildfarm.postgresql.org — the per-animal status grid; failure logs
   here back the `log_url` field returned by `animal_history` and

@@ -11,9 +11,9 @@ Produce a pre-flight review report that approximates the kinds of concerns three
 One of:
 
 - `patch_file_path` — local path to a unified-diff `.patch` file.
-- `commit_sha` — a SHA in the local clone of postgres.git or accessible via agora's `git_show_file`.
+- `commit_sha` — a SHA in the local clone of postgres.git or accessible via the pg.ddx.io `git_show_file` tool.
 - `branch_name` — a local branch (the diff is `git merge-base origin/master <branch>..` to `<branch>`).
-- `message_id` — a -hackers Message-ID whose attached patch should be fetched via agora.
+- `message_id` — a -hackers Message-ID whose attached patch should be fetched via pg.ddx.io.
 
 ## Outputs
 
@@ -175,7 +175,7 @@ Then patch summary, then per-voice sections, then synthesis, then disclaimer foo
 - **Mechanical patch.** Skip per step 1.
 - **Voice file missing.** Note substitution; do not fabricate the voice. If no relevant voice file exists at all, output the report with only the default triplet plus an "agent-observations" section, and flag in the report header that topic-relevant simulation was skipped.
 - **Patch touches everything.** A 5000-line patch across 50 files defeats voice-by-voice review; chunk the patch into per-subsystem hunks first and run this skill once per chunk.
-- **No prior art found.** Don't say "this is novel" — say "no prior discussion located in agora's index" and note that pre-2010 mail might not be reachable.
+- **No prior art found.** Don't say "this is novel" — say "no prior discussion located in the pg.ddx.io index" and note that pre-2010 mail might not be reachable.
 - **Disclaimer absence.** If you forgot the disclaimer, the report is unusable. Always include it.
 
 ## Sources

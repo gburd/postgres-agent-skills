@@ -1,6 +1,6 @@
 # Workflow: Investigate a Bug Using Archives and Code Intelligence
 
-Use the Agora MCP server to investigate a PostgreSQL bug by combining mailing list archives (where bugs are reported and discussed) with code intelligence (to understand the affected code paths).
+Use the pg.ddx.io MCP server to investigate a PostgreSQL bug by combining mailing list archives (where bugs are reported and discussed) with code intelligence (to understand the affected code paths).
 
 ## Inputs
 

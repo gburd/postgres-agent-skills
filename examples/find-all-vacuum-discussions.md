@@ -1,6 +1,6 @@
 # Example: Find and Summarize All Autovacuum Discussions
 
-This example shows how to use Agora to comprehensively research a topic — in this case, autovacuum and its evolution.
+This example shows how to use the pg.ddx.io MCP server to comprehensively research a topic — in this case, autovacuum and its evolution.
 
 ## Background
 

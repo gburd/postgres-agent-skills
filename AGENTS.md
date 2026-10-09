@@ -36,8 +36,10 @@ then generic agent habits. Three collections:
    - [`postgres/best-practices`](postgres/best-practices/SKILL.md) — the shared 41-rule library the personas cite.
 
 2. **[`tooling/`](tooling/README.md) — integration for developing Postgres
-   code.** `agora` (pgsql-hackers + git research via the agora MCP),
-   `coccinelle`, `flex-bison-to-lime`, `hegel`, `pg-numa-benchmark`,
+   code.** `pg-ddx-research` (pgsql-hackers + git research via the MCP server
+   at [pg.ddx.io](https://pg.ddx.io/), The Database Development neXus: for
+   PostgreSQL), `benchmark`, `choose-instance`, `tune-os-for-benchmark`,
+   `pg-numa-benchmark`, `coccinelle`, `flex-bison-to-lime`, `hegel`,
    `review-diff`. Secondary to the Postgres skills: used in service of a
    Postgres task.
 
@@ -52,7 +54,7 @@ set (`must-rules`, `coding-standards`, `workflow`, `voice`, `prose-mechanics`,
 `opinions`, `tools`) and a domain file ([`steering/postgresql.md`](steering/postgresql.md))
 loaded only in Postgres projects. `steering/README.md` explains how to wire
 steering into any agent and how to set up the environment (persistent memory,
-the agora MCP, version-matched docs, executable checks) for the best results.
+the pg.ddx.io MCP server, version-matched docs, executable checks) for the best results.
 This AGENTS.md is itself the top-level steering map.
 
 Shared PostgreSQL community knowledge lives in

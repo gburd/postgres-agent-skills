@@ -1,6 +1,6 @@
 # Example: Tracing WAL Implementation History
 
-This example demonstrates using Agora to trace the history of Write-Ahead Logging (WAL) in PostgreSQL — from its original introduction through major redesigns.
+This example demonstrates using the pg.ddx.io MCP server to trace the history of Write-Ahead Logging (WAL) in PostgreSQL — from its original introduction through major redesigns.
 
 ## Background
 

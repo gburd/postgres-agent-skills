@@ -1,6 +1,6 @@
 # Example: Review a Multi-Version Patch Series
 
-This example demonstrates using Agora to understand the full context of a patch series that went through multiple review cycles before being committed (or rejected).
+This example demonstrates using the pg.ddx.io MCP server to understand the full context of a patch series that went through multiple review cycles before being committed (or rejected).
 
 ## Scenario
 

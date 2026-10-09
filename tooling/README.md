@@ -6,7 +6,7 @@ service of a Postgres task, not for their own sake.
 
 | Skill | Use for |
 |-------|---------|
-| [`agora/`](agora/SKILL.md) | research the PostgreSQL community & codebase via the agora MCP server — pgsql-hackers archive, git history, code intelligence, commit↔thread correlation |
+| [`pg-ddx-research/`](pg-ddx-research/SKILL.md) | research the PostgreSQL community & codebase via the pg.ddx.io MCP server — pgsql-hackers archive, git history, code intelligence, commit↔thread correlation |
 | [`benchmark/`](benchmark/SKILL.md) | run a reproducible benchmark correctly (A/B, warm-up, repetition, variance), locally or on a remote host over SSH |
 | [`choose-instance/`](choose-instance/SKILL.md) | pick a cloud instance type (any provider) that faithfully represents what the benchmark stresses; when bare metal is required |
 | [`tune-os-for-benchmark/`](tune-os-for-benchmark/SKILL.md) | make an OS measurement-grade before benchmarking (Linux/BSD/illumos/Windows): governor, hugepages, NUMA, filesystem, quiescing jitter |
@@ -16,7 +16,7 @@ service of a Postgres task, not for their own sake.
 | [`hegel/`](hegel/SKILL.md) | property-based tests (round-trips, invariants, contracts) across Rust/C/C++/Go/TypeScript |
 | [`review-diff/`](review-diff/SKILL.md) | review a git diff for regressions, style, complexity, and security — one agent reviewing another's change |
 
-The `agora` research skill is the rule of first resort for the
+The `pg-ddx-research` skill is the rule of first resort for the
 `postgres/developer` persona: ask the archive before grepping or guessing.
 
 The three benchmarking skills compose: **choose-instance** → **tune-os-for-benchmark**

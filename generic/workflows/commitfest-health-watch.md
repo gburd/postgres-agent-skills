@@ -277,8 +277,8 @@ investigate FreeBSD/x86_64 schema-qualification path.
 - **CF entry recently moved to next CF**: the `cf_id` you have may now
   reference an entry whose history is split. Use `entry_history(cf_id:
   <id>)` to find the lineage and report on all linked entries (the
-  `entry_history` call walks the join across commitfests; see
-  `agora/pkg/mcp/tools_commitfest_extra.go` `entryHistoryTool`).
+  `entry_history` call walks the join across commitfests; see the
+  `entry_history` entry at <https://pg.ddx.io/mcp-tools>).
 - **cfbot offline / lagging**: `build_status_freshness` flags this. Don't
   produce a confident matrix in that case; report `Unknown (cfbot lag
   Xh)` for every cell and stop.
@@ -301,11 +301,7 @@ investigate FreeBSD/x86_64 schema-qualification path.
 
 ## Sources
 
-- agora MCP tool definitions:
-  `agora/pkg/mcp/tools_commitfest.go`,
-  `agora/pkg/mcp/tools_commitfest_extra.go`,
-  `agora/pkg/mcp/tools_build_status.go`,
-  `agora/pkg/mcp/tools_buildfarm.go` —
+- pg.ddx.io MCP tool reference: <https://pg.ddx.io/mcp-tools> —
   authoritative names + parameters for every verb cited above.
 - commitfest.postgresql.org — surface UI; the "Cfbot status" column shown
   per entry is the data this skill consumes.

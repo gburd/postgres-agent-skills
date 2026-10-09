@@ -30,7 +30,6 @@ regexes = [
     '''postgres:postgres@''',
     '''postgres://postgres:postgres''',
     '''user:password@''',
-    '''agora:PASSWORD@''',
     '''CHANGEME''',
     '''<password>''',
     '''<your-token>''',

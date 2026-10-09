@@ -89,7 +89,7 @@ TOUCHED_FILES=$(git diff --name-only "$MERGE_BASE" HEAD)
 git log --oneline "$MERGE_BASE..origin/master" -- $TOUCHED_FILES | wc -l
 ```
 
-For each touched file, get the upstream commit list with rationale via agora (faster than reading 200 messages locally):
+For each touched file, get the upstream commit list with rationale via pg.ddx.io (faster than reading 200 messages locally):
 
 ```
 git_log(repo: "postgres", path: "<touched file>", since: "<merge-base date>", limit: 100)
@@ -152,7 +152,7 @@ git log --merges --first-parent "$MERGE_BASE..origin/master" -- <conflicting-fil
 git blame -L <line-start>,<line-end> origin/master -- <conflicting-file>
 ```
 
-Cross-reference via agora (gives commit message in full):
+Cross-reference via pg.ddx.io (gives commit message in full):
 
 ```
 git_log(repo: "postgres", path: "<conflicting-file>", since: "<merge-base date>", limit: 30)

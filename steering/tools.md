@@ -35,4 +35,5 @@ project has none:
 When a question matches a configured MCP server's domain, consult it before
 manual search; manual grep over a large corpus returns lower-quality results
 and wastes tokens. For PostgreSQL community/codebase research that server is
-`agora` (see the `tooling/agora` skill and `generic/mcp-servers.json`).
+pg.ddx.io (see the `tooling/pg-ddx-research` skill and
+`generic/mcp-servers.json`).

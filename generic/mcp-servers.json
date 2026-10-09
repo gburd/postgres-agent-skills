@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "agora-postgresql": {
+    "pg-ddx": {
       "url": "https://pg.ddx.io/mcp/",
       "transport": "streamable-http",
-      "description": "PostgreSQL community mailing list archives, source code intelligence, and development history via the Agora MCP server."
+      "description": "pg.ddx.io (The Database Development neXus: for PostgreSQL): pgsql-hackers and other list archives, source code intelligence, commitfest, build farm, and development history."
     }
   }
 }

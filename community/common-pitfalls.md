@@ -9,7 +9,7 @@ Mistakes newcomers (and sometimes experienced contributors) make when interactin
 **The most common mistake.** Your idea has almost certainly been discussed before. Often multiple times.
 
 Before proposing anything:
-1. Search the mailing list archives (via Agora: `search`, `hybrid_search`)
+1. Search the mailing list archives (via the pg.ddx.io MCP server: `search`, `hybrid_search`)
 2. Look for rejected proposals on the same topic
 3. Read WHY previous attempts failed — the reasons are usually still valid
 4. Reference what you found: "I saw the 2019 thread about X. My approach differs because..."
@@ -22,7 +22,7 @@ Submitting a patch without understanding the surrounding code:
 - Breaking invariants you didn't know existed
 - Not understanding the locking protocol for that data structure
 
-Use Agora's code intelligence: `get_callers`, `get_callees`, `get_dependents`, `get_impact`
+Use the pg.ddx.io code intelligence tools: `get_callers`, `get_callees`, `get_dependents`, `get_impact`
 
 ### Not Understanding the Problem Space
 

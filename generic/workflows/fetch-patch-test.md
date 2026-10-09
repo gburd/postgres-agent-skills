@@ -480,10 +480,7 @@ on agent-managed scratch directories.
 
 ## Sources
 
-- agora MCP tool definitions:
-  `agora/pkg/mcp/tools.go` (mailing-list verbs),
-  `agora/pkg/mcp/tools_commitfest.go`,
-  `agora/pkg/mcp/tools_build_status.go` —
+- pg.ddx.io MCP tool reference: <https://pg.ddx.io/mcp-tools> —
   authoritative names + parameters.
 - `community/conventions/git-workflow.md` — `git format-patch`
   conventions, `git am` mechanics, `apply.whitespace = error`.

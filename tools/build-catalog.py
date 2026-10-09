@@ -53,10 +53,12 @@ REDIRECTS = {
     "flex-bison-to-lime": "#skill-tooling-flex-bison-to-lime",
     "hegel": "#skill-tooling-hegel",
     "pg-numa-benchmark": "#skill-tooling-pg-numa-benchmark",
-    "postgresq": "#skill-tooling-agora",
     "aws-benchmark": "#skill-tooling-benchmark",
     "review-diff": "#skill-tooling-review-diff",
 }
+# Retired names are deliberately NOT listed here (they must not appear in the
+# repo at all). Any old link that is not mapped above falls through to
+# 404.html, which sends the reader to the catalogue.
 
 # Third-party skills/MCPs worth adding but NOT bundled (different owners and
 # licenses). Listed on the catalogue as suggestions.
@@ -380,7 +382,8 @@ sources so you can connect each skill back to its origin:</p>
   and <a href="https://wiki.postgresql.org/wiki/Performance_Optimization">Performance Optimization</a>
   (CC-BY-SA-3.0; ideas re-expressed, no text reused).</li>
   <li>Community practice distilled from the pgsql-hackers archive, exposed via the
-  <a href="https://pg.ddx.io/mcp/">agora MCP server</a> that several skills drive.</li>
+  <a href="https://pg.ddx.io/mcp/">pg.ddx.io MCP server</a> (The Database
+  Development neXus: for PostgreSQL) that several skills drive.</li>
   <li>The structure of this ruleset was informed by
   <a href="https://github.com/supabase/agent-skills">supabase/agent-skills</a>; our rules are
   independent CC0 rewrites, not copies.</li>
@@ -427,6 +430,13 @@ removals, and arguments are all welcome.</p>
             f'<p>This skill moved. <a href="/postgres-agent-skills/{target}">Go to the catalogue</a>.</p>\n',
             encoding="utf-8")
         n_redir += 1
+    # Catch-all for any other retired path: GitHub Pages serves 404.html for
+    # unknown URLs, so old deep links land on the catalogue instead of a dead end.
+    (OUT / "404.html").write_text(
+        '<!doctype html><meta charset="utf-8"><title>moved</title>'
+        '<meta http-equiv="refresh" content="0; url=/postgres-agent-skills/">'
+        '<p>This page moved. <a href="/postgres-agent-skills/">Go to the '
+        'skills catalogue</a>.</p>\n', encoding="utf-8")
     print(f"wrote {OUT/'index.html'} — {total_skills} skills, {total_rules} rules, {n_redir} redirects")
 
 

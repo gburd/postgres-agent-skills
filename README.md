@@ -73,7 +73,7 @@ PostgreSQL docs.
 
 ### 2. [`tooling/`](tooling/README.md) — develop Postgres code
 
-`agora` (pgsql-hackers + git research via the agora MCP), `coccinelle`,
+`pg-ddx-research` (pgsql-hackers + git research via the pg.ddx.io MCP server), `coccinelle`,
 `flex-bison-to-lime`, `hegel`, `pg-numa-benchmark`, `review-diff`.
 
 ### 3. [`ai-life-skills/`](ai-life-skills/README.md) — generic agent habits
@@ -91,7 +91,7 @@ universal set (`must-rules`, `coding-standards`, `workflow`, `voice`,
 ([`steering/postgresql.md`](steering/postgresql.md)) you load only in Postgres
 projects. [`steering/README.md`](steering/README.md) explains how to wire these
 into Claude Code / Kiro / Pi / any AGENTS.md agent, and **how to set up your
-environment for the best agentic results** (persistent memory, the agora MCP, a
+environment for the best agentic results** (persistent memory, the pg.ddx.io MCP server, a
 version-matched docs source, executable checks, scoped context).
 
 Shared PostgreSQL community knowledge: [`community/`](community/) (conventions,
@@ -107,7 +107,10 @@ subagent methodology), [agent-skill-manager](https://www.npmjs.com/package/agent
 (cross-agent skill management), and [memelord](https://github.com/earendil-works/memelord)
 (persistent-memory MCP). Install the ones you want.
 
-## MCP server endpoint (agora)
+## MCP server endpoint (pg.ddx.io)
+
+[pg.ddx.io](https://pg.ddx.io/) is **The Database Development neXus: for
+PostgreSQL** (DDX). Its MCP server:
 
 ```
 https://pg.ddx.io/mcp/
@@ -115,7 +118,7 @@ https://pg.ddx.io/mcp/
 
 Streamable HTTP / SSE, no auth. Indexes the pgsql-hackers archive, 28 git repos
 with code intelligence, commitfest, build-farm, and the wiki. Drives the
-`agora` tooling skill. See [`generic/mcp-servers.json`](generic/mcp-servers.json)
+`pg-ddx-research` skill. See [`generic/mcp-servers.json`](generic/mcp-servers.json)
 for a manifest including other useful MCPs (memelord, github, filesystem,
 context7, sequential-thinking).
 

@@ -108,8 +108,8 @@ improves agent quality on PostgreSQL work:
   recall at task start and record at task end. See the
   `ai-life-skills/persistent-memory` skill. This is the single highest-leverage
   addition: it is how the agent stops making the same mistake twice.
-- **The agora research MCP.** Configure `https://pg.ddx.io/mcp/` (see
-  `tooling/agora` and `generic/mcp-servers.json`). It replaces hours of
+- **The pg.ddx.io research MCP server.** Configure `https://pg.ddx.io/mcp/` (see
+  `tooling/pg-ddx-research` and `generic/mcp-servers.json`). It replaces hours of
   archive-grepping with one query and is the rule of first resort for "why",
   "who else hit this", and "what thread led to this commit".
 - **A docs source for the version you run.** Point a docs tool at the manual

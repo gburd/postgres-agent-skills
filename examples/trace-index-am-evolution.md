@@ -1,6 +1,6 @@
 # Example: Trace Index AM API Evolution
 
-This example demonstrates using Agora to trace how the Index Access Method (AM) API evolved across PostgreSQL releases — from the original fixed set of index types to the modern extensible interface.
+This example demonstrates using the pg.ddx.io MCP server to trace how the Index Access Method (AM) API evolved across PostgreSQL releases — from the original fixed set of index types to the modern extensible interface.
 
 ## Background
 
