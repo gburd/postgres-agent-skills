@@ -98,6 +98,20 @@ make -s -j$(nproc) check-world     # full test suite
 
 If anything fails, fix and re-test.
 
+**catversion — mention it, don't bump it.** If the patch changes the
+catalog or WAL format (new/changed system catalog, new built-in function
+with a fixed OID, changed WAL record layout), do **not** bump
+`CATALOG_VERSION_NO` in `src/include/catalog/catversion.h` in the patch you
+post — a concrete bump guarantees a merge conflict with every other
+in-flight catalog-touching patch. Instead, say so in the covering email, e.g.:
+
+> This patch changes the catalog, so it will need a `catversion.h` bump when
+> committed; I've left that out of the patch to avoid conflicts.
+
+The committer sets the real value to the commit date at push time. See
+`community/conventions/committing-checklist.md` § "catversion bump" for the
+committer-side half of this.
+
 ## 4. Produce the patch series
 
 ```sh

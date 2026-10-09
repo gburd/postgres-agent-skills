@@ -67,6 +67,25 @@ why it stalled saves the same dead end.
 - **A local-only dev-setup commit** (Nix env, editor config) stays first and is
   excluded from the submitted series.
 
+## Generated code and OID discipline
+
+- **Never hand-edit generated output.** `gram.c`/`scan.c` (and `gramparse.h`)
+  are generated from `gram.y`/`scan.l` — edit the `.y`/`.l` and rebuild. Node
+  support (copy/equal/out/read functions for node types) is generated from the
+  struct definitions under `src/include/nodes/` by the node-support generator —
+  define the node with the right annotations and rebuild; do not hand-edit the
+  generated `*funcs.c`. `errcodes.h` is generated from `errcodes.txt`. Catalog
+  `*_d.h` headers and bootstrap data are generated from the `.dat`/`.h` pairs
+  under `src/include/catalog/`. A diff that touches both a generator input and
+  its generated output is a review reject — if a file has a "DO NOT EDIT —
+  generated" header, edit the source of truth instead.
+- **New OIDs come from the unused range.** `src/include/catalog/unused_oids`
+  lists free OIDs; `src/include/catalog/renumber_oids.pl` renumbers a patch's
+  OIDs into the committer-reserved range at commit time. Development patches
+  conventionally use OIDs ≥ 8000; never reuse an OID already assigned to
+  something else. See `src/include/catalog/README` before touching catalog
+  layout.
+
 ## Build & verify (mechanics that bite)
 
 - Build with `--enable-cassert --enable-debug --enable-tap-tests`. Undefined-

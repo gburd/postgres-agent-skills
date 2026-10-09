@@ -38,6 +38,21 @@ order  by rank desc;
 Weight fields differently with `setweight` if title should outrank body. Do not
 build a `tsvector` over huge columns you never search — it costs storage and
 write time. For trigram/substring matching (as opposed to word search), use
-`pg_trgm` with a GIN/GiST index instead.
+`pg_trgm` with a GIN/GiST index instead:
+
+```sql
+-- a mid-string LIKE/ILIKE is normally unindexable, even with a plain B-tree
+-- on the column: select * from articles where title ilike '%postgresql%';
+create extension if not exists pg_trgm;
+create index on articles using gin (title gin_trgm_ops);
+
+-- now indexable, including a leading wildcard
+select * from articles where title ilike '%postgresql%';
+```
+
+`pg_trgm` breaks the string into trigrams and indexes those, so GIN can
+satisfy `LIKE '%mid%'`/`ILIKE '%mid%'` and similarity (`%`) queries that a
+B-tree never could — at the cost of a larger index than a plain B-tree on the
+same column, since every trigram, not just the whole value, is indexed.
 
 Reference: [Full Text Search](https://www.postgresql.org/docs/current/textsearch.html) · [FTS Tables and Indexes](https://www.postgresql.org/docs/current/textsearch-tables.html)

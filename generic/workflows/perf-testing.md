@@ -366,6 +366,33 @@ scan, index-only scan, particular planner regression), write the
 script in plain SQL and use `\set` to randomise just the
 parameters that matter.
 
+## A/B per-run metric checklist (not just TPS)
+
+TPS and latency alone under-report what an A/B comparison needs to show,
+especially for a patch that targets something other than raw throughput.
+Record these every run, both baseline and patched:
+
+- **WAL volume generated.** Diff `pg_stat_wal` counters (or `pg_current_wal_lsn()`
+  before/after) across the run. A patch that trades CPU for extra WAL (or vice
+  versa) looks like a pure win on TPS alone and is not.
+- **The per-feature `pg_stat_*` counter the change is supposed to move.** If
+  the patch targets, say, checkpoint behaviour, read `pg_stat_checkpointer`;
+  if it targets vacuum, read `pg_stat_progress_vacuum` / `pg_stat_database`'s
+  dead-tuple counters. Confirm the mechanism moved, not just the headline
+  number — a flat counter despite a throughput change means the win came
+  from somewhere else and the explanation is wrong.
+- **Index and table bloat, before and after.** A write-path change that
+  looks faster can be winning by deferring work (e.g. skipping a cleanup
+  step) that shows up later as bloat; measure it in the same run, not a
+  separate pass days later.
+- **Peak CPU and RSS**, not just the steady-state average — a change that
+  raises peak memory can be invisible in a TPS number but still unsafe on a
+  memory-constrained production host.
+- **Latency percentiles (p50/p95/p99), not just mean/TPS.** A regression that
+  only appears in the tail (p99) is routinely masked by an improved mean; use
+  `pgbench -r` (per-script latency report) or your harness's percentile
+  output, both baseline and patched, every run.
+
 ## Reporting results to -hackers
 
 A -hackers performance post is judged on the methodology

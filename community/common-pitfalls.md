@@ -68,6 +68,38 @@ Common portability failures:
 - Assuming specific endianness
 - Using C99/C11 features not available on all compilers
 
+**The specific failure mechanics, by platform:**
+
+- **Windows symlinks are unreliable in a git checkout.** Avoid relying on
+  symlinks in build or test scripts; a checkout on a Windows machine may
+  silently get a text file containing the link target instead of a real
+  link.
+- **GNU-specific build traps.** `sed -i` without a backup-suffix argument,
+  reliance on `/proc`, and GNU-dialect `sed`/`awk` constructs all fail on
+  the BSDs and macOS, whose base-system `sed`/`awk` are not GNU. Write
+  scripts to the POSIX-common subset or detect the platform explicitly.
+- **MSVC is strict about C dialect.** Designated initializers and variable-
+  length arrays (VLAs), both fine on gcc/clang, do not build on MSVC. A
+  construct that compiles cleanly on your Linux box can fail the Windows
+  buildfarm animal outright.
+- **`%zu` vs `%lu` for `Size`.** `Size` (a `size_t`) must be printed with
+  `%zu`, not `%lu` — on a 32-bit platform or a platform where `long` and
+  `size_t` differ in width, `%lu` either misformats or triggers a compiler
+  warning that is an error under `-Werror`.
+- **`getaddrinfo`/`strto*`/shared-memory and semaphore APIs diverge by
+  platform.** Behavioral differences (not just availability) in these calls
+  across Linux, the BSDs, and Windows are a recurring source of "works on
+  my machine" bugs; use the project's `src/include/port.h` abstractions
+  rather than calling the libc function directly where one exists.
+- **A change category is not verified until the full buildfarm/cfbot matrix
+  is green — a local run cannot clear it alone.** This applies especially
+  to: configure/meson feature detection, locale/collation/encoding/ICU code
+  paths, threading/shared-memory/semaphores/atomics/barriers,
+  TLS/SSL/SASL/SCRAM/GSSAPI/LDAP/Kerberos (also gated behind
+  `PG_TEST_EXTRA` — set it when you touch them), timezone/`clock_gettime`
+  behaviour, and any `#ifdef WIN32` / platform `#ifdef` branch (the branch
+  you did not compile locally is the one that breaks).
+
 ### Missing catversion Bumps
 
 If you change system catalogs (pg_proc entries, new catalog columns, new catalog tables, etc.), you must increment `CATALOG_VERSION_NO`. Forgetting this means databases from before and after your change are incompatible without anyone knowing.
@@ -94,6 +126,39 @@ pfree(ptr);
 
 /* GOOD: use memory contexts or PG_TRY */
 ```
+
+### Reporting a Non-Bug (False-Positive Patterns)
+
+Static-analysis instincts from typical C/C++ codebases misfire constantly on
+the PostgreSQL backend. Before reporting a "bug" a scanner or a first pass
+flagged, check whether it is actually one of these well-known non-bugs:
+
+- **`strcmp` on an identifier or catalog name is correct, not a collation
+  bug.** `strcmp` is right for C-locale / byte-exact comparisons; `varstr_cmp`
+  (and the collation machinery) is for user string data. Flagging a `strcmp`
+  on a relation name or similar as "collation-unaware" is a frequent false
+  positive.
+- **GUC validation belongs in the `check_hook`, not the `assign_hook`.** The
+  assign hook is not allowed to fail — "validation in the wrong hook" is by
+  design, not a missed check.
+- **A missing overflow check is only a bug where attacker-influenced values
+  reach plain arithmetic.** The paths that must be overflow-safe already use
+  `pg_add_s32_overflow` and friends; plain arithmetic in paths that cannot
+  overflow (bounded internal counters, fixed-size loops) is fine as written.
+- **A signal handler that only sets a `volatile sig_atomic_t` flag is
+  correct, not incomplete.** Signal handlers and postmaster paths must be
+  async-signal-safe; "just take a lock" advice from general C guidance is
+  wrong here — taking a lock in a handler is the actual bug.
+- **Calling libc `free()` on `palloc`'d memory (or `pfree` on `malloc`'d
+  memory) is the real bug — a missing `pfree` on context-allocated memory is
+  not.** Most backend allocations live in a `MemoryContext` reset or deleted
+  in bulk at a well-defined lifetime boundary; a missing `pfree` there is
+  normal and often intentional. Only flag it when the allocation accumulates
+  in a long-lived context (`TopMemoryContext`, `CacheMemoryContext`).
+- **Build with `--enable-cassert`/`-Dcassert=true` and reproduce before
+  reporting anything.** Many genuine backend bugs only manifest under
+  assertions, and most of the false-positive patterns above vanish once you
+  understand the idiom and see the assertion-enabled build still pass.
 
 ## Social Pitfalls
 

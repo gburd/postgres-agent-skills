@@ -171,3 +171,37 @@ An increasingly important decision principle:
 - This reduces the maintenance burden on the core team
 
 Debates about "core vs extension" are among the most common and most important in the project.
+
+## Reading the Signals (a cheat sheet)
+
+An agent that treats a PostgreSQL thread like a GitHub PR — silence as
+approval, a merge as the goal, a reply as a decision — will consistently
+misread the project. The signals committers give are subtle and conversational,
+not a status field:
+
+- **A quick positive reply from a committer** is a strong signal of acceptance.
+- **Silence is not agreement.** It usually means nobody cares enough to
+  champion the idea, and it will quietly die. Do not treat an unanswered
+  proposal as approved — "consensus by indifference" is a no, not a yes.
+- **"I'm not sure we need this"** from a committer is a soft rejection, not an
+  open question.
+- **"This would need to…"** is conditional interest — a requirement being
+  stated, not a rejection; address it and the thread may move forward.
+- **"NAK" / "-1"** is a strong, rare, and serious objection.
+- **"Let's revisit for the next release"** is a polite deferral that may or
+  may not actually happen — track it, don't assume it will resurface on its
+  own.
+- **A long debate with no resolution** means the feature may be too
+  controversial for this cycle, not that it is close to landing.
+
+## For an Agent Specifically
+
+- **Do not infer approval from silence** or from a single reply. The absence
+  of an objection is not the presence of consensus.
+- **Do not treat "merged" as the objective.** The point of a thread is to
+  reach the right design; surface the trade-off and the open questions, and
+  let the humans decide whether and when to commit.
+- **Never post to a mailing list to force a decision.** A human owns and
+  sends all list traffic; an agent prompting a thread for a ruling is not how
+  this project reaches consensus and will be read as impatience, which costs
+  credibility (see "How Influence Is Lost" above).

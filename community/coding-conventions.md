@@ -127,6 +127,34 @@ PG_END_TRY();
 
 Important: `ERROR` does a longjmp. Code after ereport(ERROR,...) never executes. Cleanup must be in PG_CATCH or registered via resource owners.
 
+### Resource cleanup and critical sections
+
+- **`ResourceOwner`** tracks buffer pins, relcache references, catcache
+  references, and tuple descriptors, releasing them automatically when an
+  `ERROR` longjmps past the code that acquired them. Prefer the
+  resource-owner-aware acquisition functions so cleanup is automatic; `PG_TRY`/
+  `PG_CATCH` is for cleanup the resource owner does not cover (undoing a
+  transient subsystem state), not a universal substitute for it.
+- **`PG_ENSURE_ERROR_CLEANUP`** registers a callback that runs exactly once
+  regardless of whether the enclosed code completes normally or errors out —
+  use it when cleanup must happen on both paths and a plain `PG_CATCH` (which
+  only fires on the error path) would require duplicating the cleanup call on
+  the success path too.
+- **`palloc`/`palloc0` never return NULL.** On allocation failure they
+  `ereport(ERROR)`. Do not null-check their result — that check is dead code,
+  not a safety net.
+- **Code between `START_CRIT_SECTION()` and `END_CRIT_SECTION()` must not
+  `ereport(ERROR)` or `palloc`.** A failure in a critical section is promoted
+  to `PANIC` by design — the server crashes rather than risk leaving shared
+  state (e.g. a page being WAL-logged) half-updated. Do all fallible work
+  (allocation, validation, lookups that might fail) *before* entering the
+  section; the section itself should only perform operations that cannot fail.
+- **A WAL-logging change needs matching redo.** Any change that writes a new
+  or modified WAL record requires the corresponding redo (replay) function,
+  and consideration of `pg_upgrade` compatibility, physical/logical
+  replication, and crash recovery. A write path without its redo counterpart
+  is an incomplete patch, not a follow-up.
+
 ## Common Patterns
 
 ### Node Type Checking
