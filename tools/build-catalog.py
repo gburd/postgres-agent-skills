@@ -330,16 +330,20 @@ def build():
 </section>
 
 <h2 id="install">Install</h2>
-<p>Skills are written once for every agent (Agent Skills Open Standard:
-<code>&lt;collection&gt;/&lt;skill&gt;/SKILL.md</code> with YAML front matter). There are no
-per-agent branches; clone the one repository into your agent's skills directory:</p>
-<pre><code>git clone {GITHUB}.git ~/.claude/skills/postgres   # Claude Code
-git clone {GITHUB}.git ~/.kiro/skills/postgres     # Kiro / Pi (reads ~/.kiro/skills)
-git clone {GITHUB}.git ~/agent-skills/postgres     # any MCP-aware agent</code></pre>
-<p>Point your agent at <code>AGENTS.md</code> at the repo root (tool stubs like
-<code>CLAUDE.md</code> just contain <code>@AGENTS.md</code>). Collections:
-<code>postgres/</code>, <code>tooling/</code>, <code>ai-life-skills/</code>; shared
-knowledge in <code>community/</code>, <code>generic/</code>, <code>examples/</code>.</p>
+<p>It is <strong>one repository</strong>, written once for every agent (Agent
+Skills Open Standard: <code>&lt;collection&gt;/&lt;skill&gt;/SKILL.md</code> with YAML
+front matter; no per-agent branches, no per-agent copies). Clone it once into
+wherever your agent looks for skills — only the destination path differs by
+agent, the content is identical:</p>
+<pre><code>git clone {GITHUB}.git &lt;your-agent-skills-dir&gt;/postgres</code></pre>
+<p>Common skill directories: <code>~/.claude/skills/</code> (Claude Code),
+<code>~/.kiro/skills/</code> (Kiro, also read by Pi), or any path your MCP-aware
+agent is configured to read. Then point your agent at <code>AGENTS.md</code> at
+the repo root (tool stubs like <code>CLAUDE.md</code> just contain
+<code>@AGENTS.md</code>). Topic collections: <code>postgres/</code>,
+<code>tooling/</code>, <code>ai-life-skills/</code>, <code>steering/</code>;
+shared knowledge in <code>community/</code>, <code>generic/</code>,
+<code>examples/</code>.</p>
 
 <h2 id="skills">Skills</h2>
 {skills_html}

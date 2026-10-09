@@ -22,17 +22,21 @@ the security model. Tool stubs like [`CLAUDE.md`](CLAUDE.md) just contain
 
 ## Install
 
-Clone the one repository into your agent's skills directory:
+It is **one repository**. Clone it once into wherever your agent looks for
+skills (the path differs by agent; the content is identical):
 
 ```bash
-git clone https://github.com/gburd/postgres-agent-skills.git ~/.claude/skills/postgres   # Claude Code
-git clone https://github.com/gburd/postgres-agent-skills.git ~/.kiro/skills/postgres     # Kiro / Pi (reads ~/.kiro/skills)
-git clone https://github.com/gburd/postgres-agent-skills.git ~/agent-skills/postgres     # any MCP-aware agent
+git clone https://github.com/gburd/postgres-agent-skills.git <your-agent-skills-dir>/postgres
 ```
 
+Common skill directories: `~/.claude/skills/` (Claude Code), `~/.kiro/skills/`
+(Kiro, also read by Pi), or any path your MCP-aware agent is configured to read.
 Then point the agent at the repo-root `AGENTS.md` (most read it automatically).
 
-## The three collections
+## What's inside
+
+Three content collections (these are topic groupings, not agent variants —
+there is a single copy for every agent):
 
 ### 1. [`postgres/`](postgres/README.md) — Postgres skills, by role
 
