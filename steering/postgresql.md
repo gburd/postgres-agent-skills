@@ -51,6 +51,10 @@ A reviewer will `git rebase --exec 'make'` the series; treat these as the bar:
   another within the series.
 - Typedefs go in `src/tools/pgindent/typedefs.list` in the commit that
   introduces the type. Run `pgindent`.
+- Do not ship a `CATALOG_VERSION_NO` bump in a posted patch: bump it locally
+  for your tests, note "requires a catversion bump" in the message, and let the
+  committer set the real value at push (a concrete bump collides with every
+  other catalog-touching commit).
 - Each commit stands alone as a defensible idea with a self-contained rationale.
 - ASCII only in code, comments, docs, and messages. No internal codename in
   identifiers.

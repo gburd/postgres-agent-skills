@@ -55,6 +55,11 @@ why it stalled saves the same dead end.
   another within a series.
 - **Typedefs** go in `src/tools/pgindent/typedefs.list` in the commit that
   introduces the type. Run `pgindent`.
+- **Do not ship a `CATALOG_VERSION_NO` bump in a posted patch.** Bump it
+  locally so your tests pass, but keep it out of the commits you post and just
+  note "requires a catversion bump" in the message/cover letter: the committer
+  sets the real value at push time, and a concrete bump collides with every
+  other catalog-touching commit within days.
 - **Each commit stands on its own as a defensible idea**, with a self-contained
   rationale in its message.
 - **ASCII only** in code, comments, docs, and messages. No project codename in

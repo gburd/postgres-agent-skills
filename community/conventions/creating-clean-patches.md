@@ -41,7 +41,14 @@ Methodology, in the order Greg recommends:
 4. **Look for unrelated changes**: a stray reformat in a function you
    touched but didn't actually modify; a "while-I-was-here" rename;
    a comment fix in a different subsystem. Move them to a separate
-   commit (or revert them).
+   commit (or revert them). Keep the patch focused on its stated goal.
+   If the unrelated thing is itself a real bug or worthwhile
+   improvement, do **not** smuggle it into this patch or thread because
+   it happens to be nearby — raise it in a **separate thread with its
+   own patch**. Bundling out-of-scope changes is a top reason a
+   reviewer stalls an otherwise-ready patch, and it forces the two
+   changes to be reviewed, committed, and (if needed) reverted as a
+   unit.
 5. **Run the test suite**, including `make check-world`, the
    isolation tester, and the TAP tests for any subsystem touched.
    See `generic/workflows/build-and-test.md`.

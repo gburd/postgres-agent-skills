@@ -27,7 +27,13 @@ exhaust their patience.
 ```
 
 What the agent should do: run steps 1–9 on their own patch *before
-posting*. Step 10 is committer-only.
+posting* — **with one exception: step 6 (catversion bump) is the
+committer's to make, not the author's.** Verify locally that a bump
+*would* be needed and note it in the commit message / cover letter, but
+do not include a concrete `CATALOG_VERSION_NO` change in the patch you
+post: it only creates rebase conflicts against every other
+catalog-touching commit, and the committer sets the real value at push
+time. Step 10 is committer-only.
 
 ## 1. Apply the patch cleanly
 
