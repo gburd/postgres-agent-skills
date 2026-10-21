@@ -111,7 +111,7 @@ If you read nothing else, these are the rules that prevent the most pain:
 ## Attribution & license
 
 Written from scratch and dedicated to the public domain under
-[CC0-1.0](../LICENSE). The rule topics were informed by the PostgreSQL manual
+[CC0-1.0](../../LICENSE). The rule topics were informed by the PostgreSQL manual
 (PostgreSQL License), the PostgreSQL project wiki (CC-BY-SA-3.0 — ideas only,
 no text reused), and the wider community's accumulated practice. No text was
 copied from any copyleft or proprietary source; each rule is original

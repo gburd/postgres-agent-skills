@@ -328,10 +328,10 @@ investigate FreeBSD/x86_64 schema-qualification path.
 
 ## Example
 
-Input: `author_email = greg.burd@example.org`.
+Input: `author_email = jane.doe@example.com`.
 
 ```
-find_entries_for_author(name_or_email: "greg.burd@example.org", limit: 50)
+find_entries_for_author(name_or_email: "jane.doe@example.com", limit: 50)
 # → 3 entries: #4521 (Needs Review), #4612 (Needs Review),
 #              #4488 (Waiting on Author).
 
