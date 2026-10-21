@@ -29,7 +29,9 @@ numactl --physcpubind=1,17 --membind=0 \
 # 6. Save perf data: perf stat -ddd, perf record -F 99 -ag.
 ```
 
-If you can't satisfy steps 1–6, your numbers are noise.
+If you can't satisfy steps 1–6, your numbers are noise. The full rule set, with
+sources, an instability decision table and a cloud-vs-owned-hardware matrix, is
+[`tooling/pg-benchmark-rigor`](../../tooling/pg-benchmark-rigor/SKILL.md).
 
 ## Reproducibility floor
 
@@ -137,7 +139,7 @@ For PostgreSQL specifically:
 ## The 9 pitfalls (Andres Freund, PGConf.dev 2026)
 
 From "Profiling Postgres Perils" — slide PDF:
-<https://anarazel.de/talks/2026-05-21-pgconf-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
+<https://anarazel.de/talks/2026-05-21-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
 (local: `/scratch/andres-talks/profiling-postgres-perils.pdf`).
 
 ### Pitfall 1: Profiling cycles under contention
@@ -287,7 +289,7 @@ workload"):
 | `SELECT * FROM (SELECT generate_series(1::numeric, 1000)) g(i) WHERE I/3.333/i/i = 0;` | 49.5% (decent) |
 
 Quoted from
-<https://anarazel.de/talks/2026-05-21-pgconf-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
+<https://anarazel.de/talks/2026-05-21-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
 slide "Maximize to-be-benchmarked".
 
 For C-level micro-benchmarks, write a dedicated bench function:
@@ -416,7 +418,7 @@ list posts; use them as templates.
 
 - **Andres Freund, "Profiling Postgres Perils"** (PGConf.dev
   2026-05-21):
-  <https://anarazel.de/talks/2026-05-21-pgconf-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
+  <https://anarazel.de/talks/2026-05-21-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
   Local copy: `/scratch/andres-talks/profiling-postgres-perils.pdf`.
   Authoritative source for the 9-pitfall checklist and all the
   benchmark-portion / iTLB / C-state numbers cited above.

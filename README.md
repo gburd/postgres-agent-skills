@@ -74,7 +74,7 @@ PostgreSQL docs.
 ### 2. [`tooling/`](tooling/README.md) — develop Postgres code
 
 `pg-ddx-research` (pgsql-hackers + git research via the pg.ddx.io MCP server), `coccinelle`,
-`flex-bison-to-lime`, `hegel`, `pg-numa-benchmark`, `review-diff`.
+`flex-bison-to-lime`, `hegel`, `pg-benchmark-rigor`, `pg-numa-benchmark`, `review-diff`.
 
 ### 3. [`ai-life-skills/`](ai-life-skills/README.md) — generic agent habits
 

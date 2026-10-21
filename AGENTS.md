@@ -39,7 +39,7 @@ then generic agent habits. Three collections:
    code.** `pg-ddx-research` (pgsql-hackers + git research via the MCP server
    at [pg.ddx.io](https://pg.ddx.io/), The Database Development neXus: for
    PostgreSQL), `benchmark`, `choose-instance`, `tune-os-for-benchmark`,
-   `pg-numa-benchmark`, `coccinelle`, `flex-bison-to-lime`, `hegel`,
+   `pg-benchmark-rigor`, `pg-numa-benchmark`, `coccinelle`, `flex-bison-to-lime`, `hegel`,
    `review-diff`. Secondary to the Postgres skills: used in service of a
    Postgres task.
 

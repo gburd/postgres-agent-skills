@@ -105,3 +105,7 @@ regressions are caught against the current mainline.
 - **Stale build** — the thing you measured was not the thing you changed →
   verify the binary/revision actually rebuilt before trusting a delta.
 - **One run** — a single number has no error bar → repeat.
+
+For PostgreSQL, also follow [`pg-benchmark-rigor`](../pg-benchmark-rigor/SKILL.md):
+the A/A noise floor, code-layout control across builds, the choice of summary
+statistic, and the verdict a result must carry.

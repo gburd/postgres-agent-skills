@@ -90,8 +90,10 @@ For A/B against the mainline, compare the feature branch against its merge-base
 with `master` (not an arbitrary tip), build both from the same checkout, refuse
 to run with a dirty tree, and emit machine-readable results. The generic
 methodology, instance choice, and OS tuning are in the `benchmark`,
-`choose-instance`, and `tune-os-for-benchmark` tooling skills; `pg-numa-benchmark`
-layers the PostgreSQL specifics.
+`choose-instance`, and `tune-os-for-benchmark` tooling skills; `pg-benchmark-rigor`
+holds the PostgreSQL measurement rules (A/A floor, interleaved order, multi-build
+layout control, a STABLE/NOISY/UNSTABLE verdict) and must be followed before any
+number is reported; `pg-numa-benchmark` is a worked example.
 
 ## The security and trust model (the top review lever)
 

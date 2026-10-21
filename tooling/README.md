@@ -10,6 +10,7 @@ service of a Postgres task, not for their own sake.
 | [`benchmark/`](benchmark/SKILL.md) | run a reproducible benchmark correctly (A/B, warm-up, repetition, variance), locally or on a remote host over SSH |
 | [`choose-instance/`](choose-instance/SKILL.md) | pick a cloud instance type (any provider) that faithfully represents what the benchmark stresses; when bare metal is required |
 | [`tune-os-for-benchmark/`](tune-os-for-benchmark/SKILL.md) | make an OS measurement-grade before benchmarking (Linux/BSD/illumos/Windows): governor, hugepages, NUMA, filesystem, quiescing jitter |
+| [`pg-benchmark-rigor/`](pg-benchmark-rigor/SKILL.md) | the measurement discipline PostgreSQL committers apply before believing a benchmark or profile: preflight, A/A floor, interleaving, multi-build layout control, statistics, a STABLE/NOISY/UNSTABLE verdict; cloud metal vs owned hardware |
 | [`pg-numa-benchmark/`](pg-numa-benchmark/SKILL.md) | the PostgreSQL layer on the three skills above: buffer-manager clock-sweep A/B (pgbench, HammerDB), stock vs patched on NUMA hardware |
 | [`coccinelle/`](coccinelle/SKILL.md) | AST-level C semantic patches: refactoring, finding API-usage/null-deref/leak patterns across the backend or an extension |
 | [`flex-bison-to-lime/`](flex-bison-to-lime/SKILL.md) | porting flex+bison parser/scanner pairs to the Lime parser generator |
@@ -20,7 +21,8 @@ The `pg-ddx-research` skill is the rule of first resort for the
 `postgres/developer` persona: ask the archive before grepping or guessing.
 
 The three benchmarking skills compose: **choose-instance** → **tune-os-for-benchmark**
-→ **benchmark**, with **pg-numa-benchmark** layering the PostgreSQL specifics on
-top. Each is provider- and OS-agnostic on its own.
+→ **benchmark**, with **pg-benchmark-rigor** (the PostgreSQL measurement rules)
+and **pg-numa-benchmark** (a worked buffer-manager A/B) layering the PostgreSQL
+specifics on top. Each is provider- and OS-agnostic on its own.
 
 CC0-1.0 (public domain). See the repo root `LICENSE`.

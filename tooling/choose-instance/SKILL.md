@@ -40,6 +40,10 @@ accident.
 
 ## When you need bare metal (and when you do not)
 
+What cloud metal can and cannot set compared with hardware you own (firmware
+knobs, a fixed baseline) is tabulated in
+[`pg-benchmark-rigor/references/sources.md`](../pg-benchmark-rigor/references/sources.md#where-to-run-cloud-metal-vs-owned-hardware).
+
 Use a `.metal` / dedicated bare-metal instance only when the benchmark is
 sensitive to things a hypervisor hides or perturbs:
 

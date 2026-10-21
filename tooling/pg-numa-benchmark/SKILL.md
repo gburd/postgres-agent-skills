@@ -26,6 +26,8 @@ This skill is the **PostgreSQL layer**. For the substrate, use first:
   (usually bare-metal) instance; the table below is an example short-list.
 - [`../tune-os-for-benchmark`](../tune-os-for-benchmark/SKILL.md) — governor,
   hugepages, `kernel.numa_balancing=0`, filesystem, quiescing jitter.
+- [`../pg-benchmark-rigor`](../pg-benchmark-rigor/SKILL.md) — the PostgreSQL
+  measurement rules every run here must satisfy (A/A floor, verdict).
 - [`../benchmark`](../benchmark/SKILL.md) — A/B alternation, warm-up,
   repetitions, variance, machine-readable results (local or over SSH).
 
@@ -60,6 +62,9 @@ pgbench RO: **+16-20%** improvement (clock sweep is the bottleneck)
 pgbench RW: **~0%** (WAL/checkpoint bottlenecked, not sweep)
 HammerDB TPC-C: **no regression** (write-heavy, sweep not dominant)
 
-## Full Guide
+## Before you report a number
 
-See `references/GREG_BENCHMARK_GUIDE.md` for the complete step-by-step procedure including all scripts, postgresql.conf settings, HammerDB setup, and troubleshooting.
+Every run here must meet [`pg-benchmark-rigor`](../pg-benchmark-rigor/SKILL.md):
+an A/A noise floor on the same instance, interleaved stock/patched order, the
+environment record, and a STABLE / NOISY / UNSTABLE verdict. The expected
+results above are what a stable run looked like on that instance, not a target.
