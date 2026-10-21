@@ -176,7 +176,7 @@ Less relevant when:
 ## Sources
 
 - **Profiling Postgres Perils** (PGConf.dev 2026-05-21):
-  <https://anarazel.de/talks/2026-05-21-pgconf-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
+  <https://anarazel.de/talks/2026-05-21-pgconf-profiling-postgres-perils/profiling-postgres-perils.pdf>
   Local copy: `/scratch/andres-talks/profiling-postgres-perils.pdf`.
   The 9-pitfall list (cycles-under-contention, other-CPU bottleneck,
   virtualization hides counters, repeated-runs distortion, SSD
