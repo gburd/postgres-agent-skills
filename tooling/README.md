@@ -16,6 +16,7 @@ service of a Postgres task, not for their own sake.
 | [`flex-bison-to-lime/`](flex-bison-to-lime/SKILL.md) | porting flex+bison parser/scanner pairs to the Lime parser generator |
 | [`hegel/`](hegel/SKILL.md) | property-based tests (round-trips, invariants, contracts) across Rust/C/C++/Go/TypeScript |
 | [`review-diff/`](review-diff/SKILL.md) | review a git diff for regressions, style, complexity, and security — one agent reviewing another's change |
+| [`review-as-author/`](review-as-author/SKILL.md) | predict a named reviewer's review of a patch from their own quoted pgsql-hackers messages and commits (pg.ddx.io); MIT, adapted from pghacker-mcp |
 
 The `pg-ddx-research` skill is the rule of first resort for the
 `postgres/developer` persona: ask the archive before grepping or guessing.
@@ -25,4 +26,5 @@ The three benchmarking skills compose: **choose-instance** → **tune-os-for-ben
 and **pg-numa-benchmark** (a worked buffer-manager A/B) layering the PostgreSQL
 specifics on top. Each is provider- and OS-agnostic on its own.
 
-CC0-1.0 (public domain). See the repo root `LICENSE`.
+CC0-1.0 (public domain), except `review-as-author/` (MIT, its own `LICENSE`). See the
+repo root `LICENSE`.

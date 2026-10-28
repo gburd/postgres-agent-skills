@@ -1,8 +1,10 @@
 # Voice: Michael Paquier
 
-Distilled patterns from Michael Paquier's reviews and commits. Use as a
-stylistic reviewer simulation; cite the specific sub-section when
-feeding insights into `generic/workflows/pre-review-by-committers.md`.
+Distilled patterns from Michael Paquier's reviews and commits.
+Background for choosing what to search for, not evidence: a point goes under
+a reviewer's name only with their own quoted message or commit (see
+`tooling/review-as-author/SKILL.md`, which
+`generic/workflows/pre-review-by-committers.md` runs per reviewer).
 
 This is a distillation, not a biography. Michael is
 `Michael Paquier <michael@paquier.xyz>`, one of the most active

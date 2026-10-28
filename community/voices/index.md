@@ -1,9 +1,12 @@
 # Voices index
 
 The named voices in `community/voices/` are stylistic distillations of
-specific PostgreSQL committers' recurring review patterns. Each is a
-checklist for `generic/workflows/pre-review-by-committers.md`, not a
-biography. Cite a voice file by its sub-section, not as a whole.
+specific PostgreSQL committers' recurring review patterns: background that
+suggests what to search for, not a biography and not evidence. A review
+attributed to a person rests on their own quoted messages and commits
+(`tooling/review-as-author/SKILL.md`; several reviewers at once:
+`generic/workflows/pre-review-by-committers.md`). Cite a voice file by its
+sub-section, not as a whole.
 
 ## Voices with their own files
 
@@ -137,10 +140,9 @@ parallel-aggregate patch, "David Rowley parallel".
 
 ## Sources
 
-- This index was constructed from the action-skill
-  `generic/workflows/pre-review-by-committers.md` § "Select 3+ voices
-  to simulate", which lists the 8 voice files this skillset covers
-  with file or anchor pointers.
+- This index was first built from the voice list of an earlier version of
+  `generic/workflows/pre-review-by-committers.md`, which picked reviewers
+  from these files; it now picks them from the files' commit history.
 - Committer email addresses verifiable from `git log --format='%aN
   <%aE>'` on a fresh clone of `git.postgresql.org/postgresql.git`.
 - Cross-reference: `community/voices/{tom-lane,andres-freund,tomas-
