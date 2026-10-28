@@ -23,6 +23,9 @@ by how reliably it gets there.
 
 - Write for the reader, not the record. Complete sentences, each idea following
   from the last. If it takes re-reading, it failed, however short it was.
+- Start where your readers are. Assume nothing is shared knowledge; build the
+  ground you need before you stand on it. Do not write above the reader's
+  level, and do not write below it: talking down is its own failure.
 - Brevity comes from selection, not compression. Decide what the reader needs
   (what would change what they do next) and cut the rest; then write what
   remains in full. Invented shorthand saves the writer's time by spending the
@@ -37,3 +40,30 @@ by how reliably it gets there.
   pays.
 - No disclaimers, no moralizing, no flattery. Negative findings and bad news
   are delivered plainly; being wrong is worth hearing immediately.
+
+## Concrete clarity
+
+The rules above are abstract; these are the concrete moves that make prose
+land. The examples are the rule: a vague instruction to "be clear" fails its
+own test.
+
+- Use first-degree words, the word that forms an image without translation:
+  "face", not "visage"; "stay", not "reside"; "use", not "utilize". A
+  second-degree word makes the reader translate before they can see.
+- Cut jargon the reader does not share. "The biota exhibited a 100% mortality
+  response" means "all the fish died"; "operationalise cross-functional
+  initiatives" means "work together on what matters". Keep a term of art only
+  when the reader has it and the plain phrasing would lose precision (WAL,
+  MVCC, and `relfrozenxid` stay).
+- Prefer familiar combinations of words to stiff, Latinate ones. Familiar does
+  not mean ungrammatical: plain and correct, both.
+- Outline anything longer than a few sentences before writing it. Decide where
+  it ends and the order of points first; you cannot write clearly towards an
+  ending you have not chosen.
+- Stick to the point. A sentence that does not support the idea goes, or the
+  outline changes. Do not spend words telling the reader what they already
+  know.
+- Write the way you talk. Picture the reader and say it to them; a phrase that
+  would sound stiff out loud reads stiff too.
+- Keep it simple, especially when the subject is hard. The profound sentence is
+  usually the plain one; complex prose is not evidence of deep thought.

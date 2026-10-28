@@ -7,9 +7,15 @@ steering file (for example PostgreSQL) overrides these where they differ.
 
 ## Sentences and punctuation
 
-- No dash asides: neither em dashes nor double hyphens. Use parentheses,
-  commas, or a new sentence. (Models default to the em dash and it reads as
-  machine output.)
+- No dash asides: no em dash, no en dash, no double hyphen. Use parentheses,
+  a comma, a colon, or a new sentence. (Models default to the em dash and it
+  reads as machine output.) A hyphen inside a compound word or a numeric range
+  is not an aside.
+- Serial (Oxford) comma: "a, b, and c", not "a, b and c".
+- Active voice first. Name the actor and give it a real verb: "the hook blocks
+  the push", not "the push is blocked by the hook"; "the file holds 40k lines",
+  not "the file is large". Keep a passive or a form of "to be" when the actor
+  is unknown or beside the point, or the thing really is a state.
 - "e.g." and "i.e." take a following comma.
 - Contractions are fine. The register is plain idiomatic prose, neither formal
   written English nor chat shorthand.
