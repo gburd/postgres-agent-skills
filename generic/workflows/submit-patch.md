@@ -169,6 +169,40 @@ mail client of choice, but ensure:
 - Subject line uses the series subject (cover letter's subject).
 - Body of the first message is the cover-letter body.
 
+### Attachments: what cfbot applies, and the size limit
+
+cfbot reads the newest message in the thread that has a patch
+attachment and applies what it finds there. It takes files whose names
+end in `.patch` or `.diff` (optionally `.gz` or `.bz2`), and archives
+ending in `.tgz`, `.tar.gz`, `.tar.bz2`, `.tar` or `.zip`; it unpacks
+the archives, then applies every `.patch` and `.diff` in name order, so
+the `v1-0001-`, `v1-0002-` prefixes from `git format-patch` set the
+order. Anything else in the message is ignored.
+
+- **Files cfbot should skip.** A reproducer, a benchmark script, a log,
+  or an alternative patch that must not replace the series goes out
+  under a name starting with `nocfbot` (for example
+  `nocfbot-v2-0001-alternative.patch`). cfbot skips any attachment
+  whose name starts that way. Some authors append `.nocfbot` or `.txt`
+  instead (`repro.sql.nocfbot`, `fix.diff.txt`); that works too,
+  because the name no longer ends in `.patch` or `.diff`. Both forms
+  appear on -hackers; the prefix is the one the cfbot code and wiki
+  name.
+- **The size limit.** A message larger than the list's threshold is
+  held for a moderator and reaches -hackers hours later, sometimes
+  after the replies to it. The threshold counts the whole message,
+  attachments included, and attachments are base64-encoded, which adds
+  a third to their size. It was 1,000 KB until March 2022, when it was
+  raised to 2 MB; no later change is on the list, and messages are
+  still held for size in 2026. Most series stay under it as loose patches. A larger one
+  can be sent as a single compressed archive of the series
+  (`tar czf myfeature-v7.tgz v7-*.patch`) or as `.patch.gz` files;
+  cfbot accepts both. Two rules from the cfbot code: if a message has
+  both loose patches and an archive, cfbot uses the loose patches and
+  ignores the archive; a message with more than one archive and no
+  loose patch is not applied at all. A series that needs an archive to
+  fit is also a hint to split it (Tom Lane in the same thread).
+
 ## 6. Register on commitfest
 
 Go to <https://commitfest.postgresql.org/> and create an entry:
@@ -331,6 +365,23 @@ are working on a v2, and back to `Needs Review` after posting it.
 - Wiki: <https://wiki.postgresql.org/wiki/Todo> — out-of-tree TODO.
 - <https://commitfest.postgresql.org/> — the live commitfest.
 - <https://cirrus.ci.postgresql.org/> — cf-bot CI status.
+- cfbot source, <https://github.com/macdice/cfbot>: `apply-patches.sh`
+  (unpacks `.tgz`/`.tar.gz`/`.tar.bz2`, `.gz` and `.zip`, then applies
+  `*.patch` and `*.diff` sorted by name) and `cfbot_commitfest_rpc.py`
+  (`url_looks_like_patch`, `url_looks_like_patch_tarball`: which
+  attachment names count, the `/nocfbot` skip, the archive-plus-patch
+  rule). Read 2026-10-28.
+- Wiki: <https://wiki.postgresql.org/wiki/Cfbot>, "Which attachments
+  are considered to be patches?" (the `nocfbot` prefix).
+- The moderation threshold: Dave Page quoting the hold reason ("Size
+  1MB (1061796 bytes) is larger than threshold 1000KB"),
+  <https://postgr.es/m/CA+OCxowPX_r29PVkzEUHkGU-M8FEB_SJTdeVPtqDn=N-yQMusQ@mail.gmail.com>;
+  raising it to 2 MB,
+  <https://postgr.es/m/CA+OCxow0Z4VeopW1SgOOYsNNbF6ECXh_HRSVwQxstaDMb_Ffmg@mail.gmail.com>;
+  that it counts the whole message,
+  <https://postgr.es/m/20220303154026.idykywotrt7l36um@jrouhaud>.
+  Messages held for size in 2026:
+  <https://postgr.es/m/CAAAe_zB82WpFEaVn_d-mkPPicDSX-1r=D9mSYOTvTyj57RuVug@mail.gmail.com>.
 - <https://buildfarm.postgresql.org/cgi-bin/show_status.pl> —
   post-commit buildfarm.
 - <https://www.postgresql.org/list/pgsql-hackers/> — searchable

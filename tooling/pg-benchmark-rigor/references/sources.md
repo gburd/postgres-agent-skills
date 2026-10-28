@@ -55,8 +55,11 @@ nothing, it says **[not found]**.
     means little if runs vary by ~200 tps; he usually doesn't bother with
     statistical models for run counts.
   - `pg_buffercache_evict_relation`, `drop_caches`, the SSD's own cache;
-    `MAP_POPULATE` for shared-memory page faults; THP `never` for `enabled`
-    and `defrag`.
+    `MAP_POPULATE` in the `mmap()` calls of `src/backend/port/sysv_shmem.c`
+    for shared-memory page faults ("maybe we should add this as a developer
+    GUC"); THP `never` for `enabled` and `defrag`. A read-only pgbench "has
+    nothing to do with checkpoints, so runs can be much shorter (a minute,
+    maybe?)". Re-checked 2026-10-28.
   - Code layout: 10 builds with different `mold --shuffle-sections` seeds,
     10 runs each, ~1% within a build, close to 5% between builds; average or
     median across builds.
@@ -164,6 +167,9 @@ Notes:
 - A cloud can expose firmware knobs: Oracle bare metal sets cores, NPS, SMT,
   access control service, IOMMU and more at launch, not afterwards
   (<https://docs.oracle.com/en-us/iaas/Content/Compute/References/bios-settings.htm>).
+- **[not found]** A source on engineering-sample CPUs (that their absolute
+  numbers may not transfer to retail parts). Neither Freund's slides nor
+  Vondra's posts mention them; the SKILL.md line is our judgement.
 - **[not found]** A source for the claim that some BIOS settings exist only on
   a machine you own. The slides, the two podcasts and the hackers threads above
   do not contain it. The matrix shows which controls are firmware-only; that

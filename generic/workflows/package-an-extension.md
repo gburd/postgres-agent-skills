@@ -148,6 +148,37 @@ git archive --format=tar.gz --prefix=my_extension-1.1.0/ \
 Include `LICENSE`, a `README`/`doc/` that documents every public function and
 GUC, and a changelog noting the upgrade steps for each version.
 
+Publish a checksum next to the tarball, and a detached signature if you sign
+releases, so a packager can check what they downloaded:
+
+```bash
+sha256sum my_extension-1.1.0.tar.gz > my_extension-1.1.0.tar.gz.sha256
+gpg --armor --detach-sign my_extension-1.1.0.tar.gz   # writes .tar.gz.asc
+```
+
+Build all three from the tag in CI, not by hand on release day, so anyone can
+reproduce them; attach them to the release page of every forge you publish on.
+
+### 8. Upload to PGXN, ask the PGDG packagers
+
+PGXN takes a zip. PGXN Manager's howto uses `git archive --format zip
+--prefix=$(EXTENSION)-$(DISTVERSION)/` from the Makefile, with the name and
+version read from `META.json`; upload it through the manager's "Upload" page
+(an account is requested once). `pgxn-utils` can create the skeleton and
+upload the release.
+
+The PGDG repositories package extensions for every supported major:
+
+- **apt.postgresql.org** (Debian, Ubuntu): ask on pgsql-pkg-debian. Packaging
+  follows Debian's, and the PGDG builds track new upstream versions sooner
+  than Debian stable does.
+- **yum.postgresql.org** (RHEL, Fedora): open an issue at
+  <https://github.com/pgdg-packaging/pgdg-rpms/issues>, or ask on
+  pgsql-pkg-yum.
+
+A packager needs a stable tarball URL, the checksum, a license they can ship,
+and a test suite that runs against an installed server (`make installcheck`).
+
 ## Outputs
 
 A release a user can install by one of three equivalent paths — all end in the
@@ -172,4 +203,8 @@ same server-side `CREATE EXTENSION`:
 <https://www.postgresql.org/docs/current/sql-createextension.html>,
 <https://www.postgresql.org/docs/current/regress.html>,
 <https://pgxn.org/spec/>,
-<https://manager.pgxn.org/howto>.
+<https://manager.pgxn.org/howto> (the zip `dist` target and the upload),
+<https://wiki.postgresql.org/wiki/Apt> and
+<https://wiki.postgresql.org/wiki/Apt/FAQ> (apt.postgresql.org, its list and
+track-upstream policy), <https://yum.postgresql.org/contact/> (the yum issue
+tracker and list). Read 2026-10-28.

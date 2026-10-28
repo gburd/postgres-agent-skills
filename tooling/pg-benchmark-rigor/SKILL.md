@@ -35,7 +35,9 @@ recipes, the profiling pitfalls from Andres Freund's talk in detail).
 
 1. **Never report a single run.** Run for minutes, not seconds, and repeat.
    A read-write pgbench run should cover 2-3 checkpoints; five such runs is
-   normal, so a comparison can take hours.
+   normal, so a comparison can take hours. A read-only run does no
+   checkpoints and can be much shorter (Vondra: "a minute, maybe?"), but
+   still needs several runs.
 2. **Never run all of A, then all of B.** Frequency and thermal drift bias
    whichever ran second. Interleave (ABBA or randomised order) and wait between
    runs.
@@ -94,7 +96,10 @@ you could not set.
 2. **Same starting state** every run (re-init or reset): results depend on time
    since init, dead tuples and autovacuum.
 3. **Warm up to steady state.** Watch `pgbench -P 1`; one documented case took
-   ~200 s. The first runs after startup also pay shared-memory page faults.
+   ~200 s. The first runs after startup also pay shared-memory page faults
+   (the kernel reserves the segment but touches few pages); adding
+   `MAP_POPULATE` to the `mmap()` calls in `src/backend/port/sysv_shmem.c`
+   removes that noise on a benchmark build (Vondra; not an upstream option).
    Discard warm-up.
 4. **Interleave and wait.** ABBA or random order; wait 10s of seconds between
    runs for clock drift, minutes to hours for SSD recovery.
@@ -171,6 +176,11 @@ Every result ends with one verdict:
 Report: hypothesis; environment record; A/A floor; run order and count; builds;
 summary statistic and why; effect with interval; verdict; uncontrolled items.
 Raw per-run data goes with it (CSV), as reviewers on pgsql-hackers ask for it.
+
+**Engineering-sample CPUs:** fine for an A/B on the same box, but do not
+compare their absolute numbers with retail parts, cloud hosts or production.
+This is our judgement, not a sourced committer rule (see
+`references/sources.md`).
 
 ## Where to run
 
