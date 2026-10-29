@@ -87,7 +87,7 @@ Make independent calls in parallel. A review typically takes 15 to 25 calls.
   (authored, reviewed, committed), latest credited commits. If several people
   match, ask which one.
 - Note how much evidence there is and when they last posted
-  (`whats_new(who: <name>, since: <as-of minus a year>, until: <as-of>)`).
+  (`whats_new(who: <name>, since: <as-of minus a year>, until: <as-of>T00:00)`).
 
 ### 2. The change
 
@@ -110,7 +110,7 @@ Skip what doesn't apply: a contributor may have no commits.
 - `search_commits(author: <surname>, paths: [<changed files>], until: <as-of>, limit: 20)`:
   what they wrote, committed or reviewed in these files. Read the one to three
   most relevant with `get_commit(commit:, diff: false)` for their rationale.
-- `blame(path:, start_line:, end_line:, version: "master@<as-of>")` on the lines
+- `blame(path:, start_line:, end_line:, version: "master@<the day before>")` on the lines
   the change rewrites. If the reviewer wrote them, their commit message is the
   design they would defend.
 
