@@ -40,7 +40,7 @@ then generic agent habits. Three collections:
    at [pg.ddx.io](https://pg.ddx.io/), The Database Development neXus: for
    PostgreSQL), `benchmark`, `choose-instance`, `tune-os-for-benchmark`,
    `pg-benchmark-rigor`, `pg-numa-benchmark`, `coccinelle`, `flex-bison-to-lime`, `hegel`,
-   `review-diff`. Secondary to the Postgres skills: used in service of a
+   `review-diff`, `review-as-author`. Secondary to the Postgres skills: used in service of a
    Postgres task.
 
 3. **[`ai-life-skills/`](ai-life-skills/README.md) — generic agent habits**,

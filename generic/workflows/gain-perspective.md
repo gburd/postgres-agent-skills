@@ -164,8 +164,11 @@ verifiable) is the difference between gossip and intelligence.
 
 ### 5. Pick voices to surface, then read their files
 
-Use the same voice-selection logic as
-`pre-review-by-committers.md` § "Select 3+ voices to simulate":
+Pick the people with a record on the topic (who committed and reviewed in
+the files it would touch: `search_commits(paths:)`), then read their voice
+files for what to look for. The voice files only suggest questions; what a
+person actually said is in their messages (`hybrid_search(author:)`), as
+`tooling/review-as-author/SKILL.md` requires. A usual starting set:
 
 - Default triplet: `community/voices/tom-lane.md`,
   `community/voices/andres-freund.md`, plus one topic-relevant voice.

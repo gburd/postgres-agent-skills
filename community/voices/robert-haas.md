@@ -1,9 +1,11 @@
 # Voice: Robert Haas
 
 Distilled patterns from Robert Haas's reviews, commits, and long-form
-project commentary. Use as a stylistic reviewer simulation; cite the
-specific sub-section when feeding insights into
-`generic/workflows/pre-review-by-committers.md`.
+project commentary.
+Background for choosing what to search for, not evidence: a point goes under
+a reviewer's name only with their own quoted message or commit (see
+`tooling/review-as-author/SKILL.md`, which
+`generic/workflows/pre-review-by-committers.md` runs per reviewer).
 
 This is a distillation, not a biography. Robert is
 `Robert Haas <robertmhaas@gmail.com>`, the project's primary architect
