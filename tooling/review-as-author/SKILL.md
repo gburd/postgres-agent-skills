@@ -11,7 +11,7 @@ description: >
 license: MIT
 metadata:
   author: ddx
-  version: "1"
+  version: "2"
 ---
 
 # Review as an author
@@ -141,16 +141,21 @@ Skip what doesn't apply: a contributor may have no commits.
   to six points in all.
 - For each point: what they would raise, where in the change, and the basis (a
   quote with its Message-ID and date, or a commit).
-- **Check every quote** before answering, one call per message:
+- **Quote short and exact:** one sentence or clause (under about 200
+  characters) copied from one place in their message. No ellipses, no joining
+  two passages, no tidying.
+- **Cite at least two different messages of theirs.** One message is an
+  anecdote; two show a position.
+- **Check every citation** before answering, one call per message:
 
   ```
   get_message(message_id: "<id>", include_body: false,
               quotes: ["<quote 1>", "<quote 2>"])
   ```
 
-  Each quote must come back `own_words: true`, and the message's `from` must be
-  the reviewer. Fix or drop any that doesn't: a quote they only quoted from
-  someone else (`in_message: true`, `own_words: false`) isn't their view.
+  Keep a citation only when all three hold: the quote comes back
+  `own_words: true` (not text they quoted from someone else), `from` is the
+  reviewer, and `date` is before the as-of date. Drop or replace any other.
 
 ## Checklist: what PostgreSQL reviewers look for
 
@@ -175,7 +180,9 @@ Use it to choose what to search for. It is not the reviewer's opinion.
 ## As-of reviews
 
 To predict what they would have said on a date (for example to compare with
-what they did say):
+what they did say). **The reviewer's actual reply to the patch is the answer
+key, not evidence:** an as-of review that cites it, or anything else dated on
+or after the as-of date, is void, however relevant it looks.
 
 - pass `until: <as-of date>` to `hybrid_search`, `search` and
   `retrieve_context` (exclusive: only what came before it), and
@@ -184,8 +191,9 @@ what they did say):
   before);
 - read code as it was with `version: "master@<the day before>"`, or the branch
   the patch targeted;
-- don't open or cite anything dated on or after the as-of date. When
-  `get_thread` shows later messages, ignore them.
+- don't open or cite anything dated on or after the as-of date. On the patch's
+  own thread, read only the messages before the patch; the replies to it are
+  what you are predicting. `get_thread` shows them all: skip them unread.
 
 ## Output
 
