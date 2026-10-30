@@ -17,6 +17,7 @@ service of a Postgres task, not for their own sake.
 | [`hegel/`](hegel/SKILL.md) | property-based tests (round-trips, invariants, contracts) across Rust/C/C++/Go/TypeScript |
 | [`review-diff/`](review-diff/SKILL.md) | review a git diff for regressions, style, complexity, and security — one agent reviewing another's change |
 | [`review-as-author/`](review-as-author/SKILL.md) | predict a named reviewer's review of a patch from their own quoted pgsql-hackers messages and commits (pg.ddx.io); MIT, adapted from pghacker-mcp |
+| [`pg-patch-upkeep/`](pg-patch-upkeep/SKILL.md) | one upkeep pass on a patch branch in review: read the -hackers thread, cfbot and PR CI for activity, address it, rebase on origin/master, pass test-world, force-push |
 
 The `pg-ddx-research` skill is the rule of first resort for the
 `postgres/developer` persona: ask the archive before grepping or guessing.

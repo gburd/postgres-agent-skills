@@ -40,6 +40,10 @@ why it stalled saves the same dead end.
 
 ## Patch-series discipline (acceptance criteria, not aspirations)
 
+A series out for review gets an upkeep pass (thread, cfbot and PR CI read
+and answered, then rebase, test-world, force-push):
+[`../../tooling/pg-patch-upkeep/`](../../tooling/pg-patch-upkeep/SKILL.md).
+
 - **Every commit builds clean on its own** with `-Werror` and
   `--enable-cassert --enable-injection-points`. A reviewer will
   `git rebase --exec 'make'` the series; any commit that fails is disqualifying.
