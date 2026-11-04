@@ -131,6 +131,9 @@ def main():
         "# JSON: https://pg.ddx.io/agents.json",
         "",
         "MCP: https://pg.ddx.io/mcp",
+        # agents.txt has no UTCP directive, and an unknown key is only a warning; a comment
+        # is ignored by every parser.
+        "# UTCP manual (the JSON API as http tools): https://pg.ddx.io/utcp",
     ]
     for heading, ps in groups:
         lines += ["", f"# --- {heading} ---"]
