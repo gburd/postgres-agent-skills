@@ -134,6 +134,10 @@ def main():
         # agents.txt has no UTCP directive, and an unknown key is only a warning; a comment
         # is ignored by every parser.
         "# UTCP manual (the JSON API as http tools): https://pg.ddx.io/utcp",
+        # Same: no directive for a code browser. Crawlers: rendered per request, so clone.
+        "# Code at a commit (HTML, rendered per request): https://pg.ddx.io/c/<repo>/<rev>/<path>"
+        "; for whole trees git clone the upstream (postgres:"
+        " https://git.postgresql.org/git/postgresql.git)",
     ]
     for heading, ps in groups:
         lines += ["", f"# --- {heading} ---"]
