@@ -18,7 +18,7 @@ Lime is a push-parser generator (descendant of Lemon/SQLite) with explicit modif
 - **`%first_token N`** sets the starting numeric ID for tokens (default 1). Set to 257 for Bison parity if your scanner emits raw ASCII for self-chars.
 - **Static and dynamic grammar mods.** Lime's `lime_modifications_to_grammar_text()` lets extensions splice rules at runtime — a feature bison cannot match.
 
-Read `/home/gburd/ws/lime/docs/MIGRATION_FROM_BISON.md` for the upstream directive map. Read `/home/gburd/ws/lime/docs/CONCEPTS.md` for the parser's runtime model.
+Read [docs/MIGRATION_FROM_BISON.md](https://github.com/gburd/lime/blob/main/docs/MIGRATION_FROM_BISON.md) for the upstream directive map. Read [docs/CONCEPTS.md](https://github.com/gburd/lime/blob/main/docs/CONCEPTS.md) for the parser's runtime model.
 
 ## Per-Component Recipe (proven across 12 PG ports)
 
@@ -222,4 +222,4 @@ Before declaring a port done:
 
 ## Reference Implementation
 
-`/home/gburd/ws/postgres/lime` — 12 components ported, including the 20k-line backend SQL parser. See `AGENTS.md` for the operator manual; `Lime-Requests.txt` for upstream dialog; `src/tools/lime_convert_gram.py` for the converter; `src/tools/lime_to_bison_gram.py` for the reverse converter.
+The `lime` branch of [gburd/postgres](https://github.com/gburd/postgres/tree/lime) — 12 components ported, including the 20k-line backend SQL parser. See `AGENTS.md` for the operator manual; `Lime-Requests.txt` for upstream dialog; `src/tools/lime_convert_gram.py` for the converter; `src/tools/lime_to_bison_gram.py` for the reverse converter.
