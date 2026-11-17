@@ -41,7 +41,7 @@ with every claim attributable to a commit or thread actually read.
 - **Message-ID / URL** → `get_message(message_id: "<id>")` and
   `get_thread(message_id: "<id>")` to see the discussion; note any commit
   SHAs cited in the thread.
-- **Concept** → start at `retrieve_context(question: "<concept>", token_budget:
+- **Concept** → start at `retrieve_context(query: "<concept>", token_budget:
   4000)` for cited passages, then `hybrid_search` and `git_search` to pin the
   defining commit(s) and thread(s).
 

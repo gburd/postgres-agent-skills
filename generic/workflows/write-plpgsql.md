@@ -297,7 +297,7 @@ For design rationale, edge cases, and "has this volatility/trigger-ordering
 gotcha bitten someone before" — ask before guessing:
 
 ```
-retrieve_context {"question": "PL/pgSQL exception block subtransaction cost", "token_budget": 4000}
+retrieve_context {"query": "PL/pgSQL exception block subtransaction cost", "token_budget": 4000}
 hybrid_search {"query": "PL/pgSQL trigger ordering", "inbox": "pgsql-general"}   # usage/gotchas
 hybrid_search {"query": "PL/pgSQL volatility planner inlining", "inbox": "pgsql-hackers"}  # implementation detail
 ```

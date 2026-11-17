@@ -53,7 +53,7 @@ reviewer notes" for checklist items with no evidence from that person.
   evidence. Fix these before posting.
 - **Divergence:** where their records point different ways. Say so; the author
   decides.
-- **Prior art:** `retrieve_context(question: <the patch in one sentence>)` and
+- **Prior art:** `retrieve_context(query: <the patch in one sentence>)` and
   `cross_reference(ref: "feature:<words>")` for earlier proposals. "We
   discussed this in 2019 and rejected it" is the objection most worth
   pre-empting.

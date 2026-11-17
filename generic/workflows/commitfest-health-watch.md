@@ -141,7 +141,7 @@ covers exotic OSes and architectures).
 For master-tracking entries, also query:
 
 ```
-commit_buildfarm_status(commit_sha: "<latest origin/master sha>")
+commit_buildfarm_status(commit: "<latest origin/master sha>")
 buildfarm_overview()
 find_breaks(since: "<since cutoff>", limit: 30)
 ```
@@ -160,7 +160,7 @@ animal_history(name: "<animal>", limit: 50)
 find_failing_runs(animal: "<animal>", limit: 20)
 ```
 
-Cross-reference with `find_entries_with_failures_on(animal_name:
+Cross-reference with `find_entries_with_failures_on(name:
 "<animal>")` to invert: "which CF entries have failed on this animal?"
 Useful if an animal goes red and the question is whose patch likely
 caused it (handed off to `buildfarm-blame.md` for the full diagnosis).
@@ -351,7 +351,7 @@ get_patch_build_history(entry_id: 4612, limit: 30)
 build_status_freshness()
 # → cfbot 2h lag. OK.
 
-commit_buildfarm_status(commit_sha: "<current origin/master>")
+commit_buildfarm_status(commit: "<current origin/master>")
 # → 1 animal red: dragonet (s390x).
 find_breaks(since: "<7 days ago>", limit: 10)
 # → dragonet broke at <unrelated sha>; not author's.

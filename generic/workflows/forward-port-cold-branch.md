@@ -156,7 +156,7 @@ Cross-reference via pg.ddx.io (gives commit message in full):
 
 ```
 git_log(repo: "postgres", path: "<conflicting-file>", since: "<merge-base date>", limit: 30)
-git_blame(repo: "postgres", path: "<conflicting-file>", line_start: <N>, line_end: <M>)
+git_blame(repository: "postgres", path: "<conflicting-file>", line_start: <N>, line_end: <M>)
 ```
 
 Resolution decision rule:
@@ -250,7 +250,7 @@ git rebase origin/master
 ```
 ```
 git_log(repo: "postgres", path: "src/backend/access/heap/vacuumlazy.c", since: "2024-09-01", limit: 30)
-git_blame(repo: "postgres", path: "src/backend/access/heap/vacuumlazy.c", line_start: 1100, line_end: 1200)
+git_blame(repository: "postgres", path: "src/backend/access/heap/vacuumlazy.c", line_start: 1100, line_end: 1200)
 ```
 
 The output report would recommend:

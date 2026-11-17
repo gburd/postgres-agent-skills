@@ -56,7 +56,7 @@ get_community(community_id: N)
 If you found one relevant function, search for similar patterns:
 
 ```
-find_pattern(pattern: "regex-matching-similar-code")
+find_pattern(query: "regex-matching-similar-code")
 ```
 
 ### 6. Understand the File Context

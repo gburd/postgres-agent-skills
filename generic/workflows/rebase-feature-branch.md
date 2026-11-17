@@ -115,12 +115,12 @@ For each conflicted hunk:
    ```
    git_log(repo: "postgres", path: "<conflicted-file>",
            since: "<merge-base date>", limit: 30)
-   git_blame(repo: "postgres", path: "<conflicted-file>",
+   git_blame(repository: "postgres", path: "<conflicted-file>",
              line_start: <conflict-line-start>,
              line_end: <conflict-line-end>)
    git_show_file(repo: "postgres", sha: "<upstream commit SHA from blame>",
                  path: "<conflicted-file>")
-   git_diff(repo: "postgres", from_commit: "<sha>^", to_commit: "<sha>")
+   git_diff(repository: "postgres", from_commit: "<sha>^", to_commit: "<sha>")
    ```
 
    Read the upstream commit message — that *is* the rationale. Decision
@@ -340,7 +340,7 @@ git_log(repo: "postgres", path: "src/backend/commands/event_trigger.c",
 # → finds upstream <sha> "Refactor EventTriggerInvoke to take EventTriggerData
 #    by reference" by <committer>, 4 days ago.
 
-git_blame(repo: "postgres", path: "src/backend/commands/event_trigger.c",
+git_blame(repository: "postgres", path: "src/backend/commands/event_trigger.c",
           line_start: 1240, line_end: 1280)
 # → confirms the conflict line range was rewritten by <sha>.
 ```

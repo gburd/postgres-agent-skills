@@ -33,8 +33,8 @@ From the thread messages, note:
 
 For deeper context on a participant:
 ```
-get_contributor_history(contributor: "person@email")
-get_author_messages(author: "person@email", after: "relevant-period")
+get_contributor_history(author: "person@email")
+get_author_messages(author: "person@email", since: "relevant-period")
 ```
 
 ### 3. Find Preceding Context

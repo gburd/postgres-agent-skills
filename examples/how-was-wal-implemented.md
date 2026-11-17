@@ -96,7 +96,7 @@ search_symbols(query: "XLogRecord", kind: "struct")
 get_symbol(qualified_name: "XLogRecord")
 
 # Find WAL resource managers
-find_pattern(pattern: "RmgrData.*rmgr")
+find_pattern(query: "RmgrData.*rmgr")
 search_symbols(query: "RmgrData")
 ```
 

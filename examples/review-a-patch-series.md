@@ -63,7 +63,7 @@ For each version, identify:
 # (read threads and note who provides substantial feedback)
 
 # Get more context on a specific reviewer's perspective
-get_author_messages(author: "reviewer@email", after: "relevant-period-start")
+get_author_messages(author: "reviewer@email", since: "relevant-period-start")
 
 # Find if the reviewer has reviewed similar patches
 search(query: "f:reviewer@email s:similar-topic", inbox: "pgsql-hackers")

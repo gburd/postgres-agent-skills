@@ -67,7 +67,7 @@ search(query: "s:BRIN OR s:block range index d:2013-01..2015-12", inbox: "pgsql-
 search_patches(query: "BRIN")
 
 # Find Alvaro Herrera's original patches
-get_author_messages(author: "alvherre", after: "2013-01-01", before: "2015-12-31")
+get_author_messages(author: "alvherre", since: "2013-01-01", until: "2015-12-31")
 ```
 
 ## Step 5: Trace Table AM API (12, ~2019)
@@ -79,7 +79,7 @@ search(query: "s:table AM OR s:table access method d:2017-01..2019-12", inbox: "
 search_patches(query: "table access method")
 
 # Find Andres Freund's work
-get_author_messages(author: "andres@anarazel.de", after: "2017-01-01", before: "2019-12-31")
+get_author_messages(author: "andres@anarazel.de", since: "2017-01-01", until: "2019-12-31")
 
 # Find the table AM handler
 search_symbols(query: "TableAmRoutine")
@@ -94,7 +94,7 @@ search_symbols(query: "AmRoutine")
 search_symbols(query: "amhandler")
 
 # See how a specific AM implements the interface
-find_pattern(pattern: "IndexAmRoutine.*btree")
+find_pattern(query: "IndexAmRoutine.*btree")
 search_symbols(query: "bthandler")
 get_symbol(qualified_name: "bthandler")
 get_callees(qualified_name: "bthandler")
@@ -108,7 +108,7 @@ get_symbol(qualified_name: "ginhandler")
 
 ```
 # How third-party extensions register new AMs
-find_pattern(pattern: "PG_FUNCTION_INFO_V1.*handler")
+find_pattern(query: "PG_FUNCTION_INFO_V1.*handler")
 search_symbols(query: "handler", kind: "function")
 
 # Find examples of extension index AMs

@@ -61,7 +61,7 @@ For a SHA:
 ```
 git_log(repo: "postgres", limit: 1, since: "2020-01-01")
 git_show_file(repo: "postgres", sha: "<sha>", path: "<each touched file>")
-git_diff(repo: "postgres", from_commit: "<sha>^", to_commit: "<sha>")
+git_diff(repository: "postgres", from_commit: "<sha>^", to_commit: "<sha>")
 ```
 
 Local equivalent if you have a clone:
@@ -85,7 +85,7 @@ work backwards from the animal's history.
 ### 2. Pull the buildfarm context for that commit
 
 ```
-commit_buildfarm_status(commit_sha: "<sha>")
+commit_buildfarm_status(commit: "<sha>")
 ```
 
 Returns the per-animal results for runs that included this SHA (animals
@@ -150,7 +150,7 @@ For your suspect SHA in that window, score:
 Use these tools to support the scoring:
 
 ```
-git_blame(repo: "postgres", path: "<file in error>",
+git_blame(repository: "postgres", path: "<file in error>",
           line_start: <N>, line_end: <M>)
 ```
 
@@ -327,7 +327,7 @@ Action: prepare s390x fix for dragonet; nothing else owed.
 Input: `commit_sha = b1f14c96720`, the SHA you just pushed.
 
 ```
-commit_buildfarm_status(commit_sha: "b1f14c96720")
+commit_buildfarm_status(commit: "b1f14c96720")
 # → dragonet/master red, calliphoridae/master red, others green.
 
 find_breaks(since: "48h", limit: 30)
@@ -338,7 +338,7 @@ find_breaks(since: "48h", limit: 30)
 animal_history(name: "dragonet", limit: 30)
 # Window: 1 commit.  Window content: just b1f14c96720.
 
-git_blame(repo: "postgres",
+git_blame(repository: "postgres",
           path: "src/backend/utils/foo.c",
           line_start: 142, line_end: 142)
 # → returns b1f14c96720.  Blame: high.
@@ -372,7 +372,7 @@ git_show_file(repo: "postgres", sha: "<each>", path: "<files>")
 # 1 of the 7 touches src/backend/storage/lmgr/lwlock.c — area pademelon
 # (HP-UX/IA64) is historically sensitive to.
 
-git_blame(repo: "postgres", path: "src/backend/storage/lmgr/lwlock.c",
+git_blame(repository: "postgres", path: "src/backend/storage/lmgr/lwlock.c",
           line_start: <area>, line_end: <area>)
 # → returns one of the 7 SHAs.
 

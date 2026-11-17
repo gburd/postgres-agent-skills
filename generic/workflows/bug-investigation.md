@@ -44,7 +44,7 @@ search_symbols(query: "function_from_backtrace")
 get_symbol(qualified_name: "crashing_function")
 
 # Find the error-raising code
-find_pattern(pattern: "ereport.*ERROR.*specific_error")
+find_pattern(query: "ereport.*ERROR.*specific_error")
 
 # If you know the file
 symbols_in_file(path: "src/backend/relevant/file.c")
@@ -116,7 +116,7 @@ search(query: "b:SIGABRT vacuum full", inbox: "pgsql-bugs")
 # 2. Find the code
 search_symbols(query: "lazy_vacuum_heap")
 search_symbols(query: "reindex_relation")
-find_pattern(pattern: "SIGABRT.*vacuum")
+find_pattern(query: "SIGABRT.*vacuum")
 
 # 3. Check history
 git_search(query: "Fix crash vacuum full expression index")

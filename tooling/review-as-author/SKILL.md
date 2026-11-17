@@ -66,15 +66,15 @@ Where it calls a tool, use this server's:
 | pghacker-mcp | pg.ddx.io |
 | --- | --- |
 | `search_authors`, `get_author` | `get_contributor(name:)` (profile, per-release roles, latest credited commits); `whats_new(who:, since:, until:)` for activity in a window |
-| `author_perspective(author, topic, paths, until)` | `hybrid_search(query: <topic>, author: <name>, until: <as-of>)` and `retrieve_context(question:, author:, until:)`; positions on features: `cross_reference(ref: "feature:<words>")` |
+| `author_perspective(author, topic, paths, until)` | `hybrid_search(query: <topic>, author: <name>, until: <as-of>)` and `retrieve_context(query:, author:, until:)`; positions on features: `cross_reference(ref: "feature:<words>")` |
 | `search_threads(query, author)` | `hybrid_search(query:, author:, until:)`, `search(query: "f:<name> ...")` |
-| `get_thread` | `get_thread(message_id:)` (own words by default; `include_bodies: false` for an outline) |
-| `search_extracts` | `retrieve_context(question:)` |
+| `get_thread` | `get_thread(message_id:)` (own words by default; `include_body: false` for an outline) |
+| `search_extracts` | `retrieve_context(query:)` |
 | `search_commits(author, paths)` | `search_commits(author: <regex>, paths: [...], until:)` (author matches Author/Reviewed-by trailers too) |
 | `get_commit` | `get_commit(commit:, diff: false)` (trailers, Discussion threads, back-patches) |
-| `blame` | `blame(path:, start_line:, end_line:, version:)` |
+| `blame` | `blame(path:, start_line:, end_line:, commit:)` |
 | `search_patches` | `search_patches(query:)`; a thread's patch files: `get_message` / `get_attachment` |
-| `search`, `grep`, `read_file` | `code_search(query:, version:)`, `read_file(path:, version:)` |
+| `search`, `grep`, `read_file` | `code_search(query:, commit:)`, `read_file(path:, commit:)` |
 | `query` (SQL quote check) | `get_message(message_id:, quotes: [...], include_body: false)` (`own_words` per quote) |
 
 ## Procedure
@@ -94,12 +94,12 @@ Make independent calls in parallel. A review typically takes 15 to 25 calls.
 - **A diff:** list the files, the functions in the hunk headers, and what
   changes for users and for code: SQL syntax, catalogs, on-disk or WAL format,
   GUCs, structs and signatures in `src/include`, locking, hot paths.
-- **A Message-ID:** `get_thread(message_id:, include_bodies: false)` for the
+- **A Message-ID:** `get_thread(message_id:, include_body: false)` for the
   subject, participants and attachments; read the patch with
   `get_attachment(message_id:, index:)`.
 - **A commit:** `get_commit(commit: <sha>)`.
 - **A design:** find the code it would touch with `code_search`, and prior
-  discussion with `retrieve_context(question: <the design in a sentence>, until:)`.
+  discussion with `retrieve_context(query: <the design in a sentence>, until:)`.
 - Write **one sentence** that says what the change does. It is the topic for
   the steps below.
 
@@ -110,7 +110,7 @@ Skip what doesn't apply: a contributor may have no commits.
 - `search_commits(author: <surname>, paths: [<changed files>], until: <as-of>, limit: 20)`:
   what they wrote, committed or reviewed in these files. Read the one to three
   most relevant with `get_commit(commit:, diff: false)` for their rationale.
-- `blame(path:, start_line:, end_line:, version: "master@<the day before>")` on the lines
+- `blame(path:, start_line:, end_line:, commit: "master@<the day before>")` on the lines
   the change rewrites. If the reviewer wrote them, their commit message is the
   design they would defend.
 
