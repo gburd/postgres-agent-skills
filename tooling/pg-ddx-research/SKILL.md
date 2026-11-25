@@ -12,7 +12,7 @@ description: >
 license: CC0-1.0
 metadata:
   author: ddx
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # PostgreSQL community & code research (pg.ddx.io MCP)
@@ -46,6 +46,16 @@ ask pg.ddx.io:
    → git-to-list correlation.
 5. **Community conventions** for a specific area → the codified conventions
    corpus (and `../../community/`).
+
+## Composing calls for bigger questions
+
+Questions such as "what's the history of X?", "who should review this?" or "is
+this a known bug?" take several calls, each feeding the next.
+[`references/recipes.md`](references/recipes.md) gives one recipe per question
+shape: the call sequence as pseudo-code over the real tool and argument names,
+when to stop, what to cite, what the index does not hold, and the same steps
+over REST and GraphQL where those surfaces have them. Over MCP it is
+`load_skill` with `name: pg-ddx-research` and `file: references/recipes.md`.
 
 ## Preferred, not exclusive
 

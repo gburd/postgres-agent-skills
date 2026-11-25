@@ -36,4 +36,6 @@ When a question matches a configured MCP server's domain, consult it before
 manual search; manual grep over a large corpus returns lower-quality results
 and wastes tokens. For PostgreSQL community/codebase research that server is
 pg.ddx.io (see the `tooling/pg-ddx-research` skill and
-`generic/mcp-servers.json`).
+`generic/mcp-servers.json`). For a question that takes several calls (the
+history of a feature, who should review a patch, whether a bug is known), follow
+the recipe for its shape in `tooling/pg-ddx-research/references/recipes.md`.
