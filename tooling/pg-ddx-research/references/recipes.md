@@ -314,6 +314,7 @@ Inputs: a postgres commit, or a window on a branch.
 ```text
 s = commit_buildfarm_status(commit="<sha>")           # per animal: status, failing stage
 w = search_commits(range="master", since="<day>")     # neighbours, to bound a window
+pick <before> and <after> from w whose commit_buildfarm_status count > 0
 b = find_breaks(branch="master", from_commit=<before>, to_commit=<after>)
 for each failing animal a: animal_history(name=a, branch="master", limit=10)
 f = search_commits(message="revert|fix", since="<day>", paths=[<touched paths>])
@@ -324,11 +325,16 @@ Cite: the buildfarm log urls, the commit, and any follow-up fix or revert.
 Limits: the buildfarm has no commit order: `find_breaks` windows are by run
 time, not git topology. Buildfarm history does not reach back years: for a
 2022 commit `commit_buildfarm_status` returned `count: 0`, which means "no
-runs on record", not "nothing broke". User-visible breakage reaches the lists
-later; search pgsql-bugs for the commit's subject too.
+runs on record", not "nothing broke". Animals build the branch tip, so many
+commits have no runs of their own; `find_breaks` with such a commit as an end
+fails with "resolve window: ... cannot scan NULL": pick ends that have runs.
+User-visible breakage reaches the lists later; search pgsql-bugs for the
+commit's subject too.
 
-Validated on `5ff67951c4` (2026-11-25): 39 runs, all passed;
-`find_breaks` over that morning's master window: 0 failures.
+Validated on `5ff67951c4` (2026-11-25): 39 runs, all passed. `find_breaks`
+from it to `048c8725bf` (07:59 to 15:14 UTC that day): 0 failures. With
+`650925dad0` (8 runs) to `14644e1238` (0 runs) as the ends it gave the
+window error.
 
 REST/GraphQL: `GET /mcp/api/buildfarm/commit/<sha>`,
 `GET /mcp/api/buildfarm/breaks?branch=master&from=<sha>&to=<sha>`.
