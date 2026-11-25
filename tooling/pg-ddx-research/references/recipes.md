@@ -65,7 +65,7 @@ REST/GraphQL: `GET /api/v2/related?ref=feature:<name>`,
 Inputs: a subsystem path (`src/backend/access/brin/`) or a topic.
 
 ```text
-c = search_commits(paths=["<dir>/"], since="<3y ago>", limit=200)
+c = search_commits(paths=["<dir>/"], since="<3y ago>", range="master", limit=200)
 count c.commits by author                            # who changed it lately
 m = hybrid_search(query="<topic>", since="1y", limit=50)
 count m.results by from                              # who discusses it lately
@@ -78,18 +78,22 @@ rank by recent commits + recent mail; drop names with nothing in 6 months
 Cite: the commit SHAs and message urls behind each name. Present it as "who
 has worked here", not "who will review".
 
-Limits: `search_commits` rows carry `author` only (the committer); patch
+Limits: without `range`, every branch is searched and each back-patch counts
+again (on BRIN, Tomas Vondra 77 and the 200-row limit reached); `range="master"`
+counts a back-patched fix once, and misses work that landed only on a back
+branch. `search_commits` rows carry `author` only (the committer); patch
 authors credited in trailers need `get_commit` on each. Commit counts reward
 committers who split work into many small commits. A name with no
 `get_contributor` match may be a new address of a known person.
 
-Validated on BRIN since 2023: 100 commits, Tomas Vondra 28, Peter Eisentraut
-12, Alvaro Herrera 11, Tom Lane 10; Tomas Vondra also leads the last year's
-BRIN mail.
+Validated on BRIN since 2023-01-01, master: 111 commits, Tomas Vondra 30,
+Peter Eisentraut 25, Michael Paquier 10, Alvaro Herrera and David Rowley 6
+each; Tomas Vondra also leads the last year's BRIN mail (5 of 50 hits).
 
-REST/GraphQL: `GET /api/v2/code/history/commits?paths=<dir>/&since=...`,
+REST/GraphQL: `GET /api/v2/code/history/commits?range=master&paths=<dir>/&since=...`,
 `GET /api/v2/mail/search?q=<topic>&since=1y`, `GET /api/v2/activity?who=<name>`.
-GraphQL `repositoryCommits(repo: "postgres", path: "<dir>", since: ...)`.
+GraphQL `repositoryCommits(repo: "postgres", branch: "master", path: "<dir>",
+since: ...)`. Both gave the same 111 commits.
 
 ## 3. "What are the design influences for ___?"
 
