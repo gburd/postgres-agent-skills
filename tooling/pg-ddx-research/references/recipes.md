@@ -208,7 +208,8 @@ Inputs: a CVE id, or a symptom in a security-relevant area.
 if a CVE id:
     x = cross_reference(ref="CVE-YYYY-NNNNN", kinds=["git"], limit=10)
     fix = x.related.git where relations has "fixes-cve" and title matches x.ref.title
-    for fix: get_commit(commit=fix.sha, diff=false)   # message, first_releases per branch
+    for each fix.releases row r: r.branch, r.sha, r.release   # one sha per branch
+    get_commit(commit=<the master row's sha>, diff=false)    # message, backpatch
 else:
     c = search_commits(message="Security: CVE-", paths=["<dir>/"], limit=20)
     a = hybrid_search(query="<area> security", inbox="pgsql-announce")
