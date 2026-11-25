@@ -33,12 +33,13 @@ Inputs: a feature name (MERGE, BRIN, logical decoding).
 
 ```text
 x = cross_reference(ref="feature:<name>", limit=5)    # timeline + design-history graph
-h = history-of(query="<name>", limit=5)               # commits, threads, people in one call
+h = history-of(query="<name>", limit=5)               # threads and people
 c = search_commits(message="^<Commit subject words>", limit=20)
-for each landmark commit k in c.commits (first add, reverts, big rewrites):
+for each landmark commit k in x.timeline.events (commit, revert) and c.commits:
     k = commit_history(commit=k.sha)                  # Discussion thread, first_releases, reverted_by
     if k.reverted_by: note the revert and fetch it the same way
-t = retrieve_context(query="why was <name> reverted|redesigned", token_budget=4000)
+t = retrieve_context(query="why was <name> reverted", until="<year after the revert>",
+                     token_budget=4000)
 ```
 
 Stop when the timeline is continuous from the first proposal to the newest
@@ -49,12 +50,18 @@ Limits: `search_commits.message` is a case-insensitive regex, so `MERGE` also
 matches "mergejoin"; anchor it (`^Add support for MERGE`). The `cross_reference`
 graph for a common word can attach to one commitfest entry rather than the
 feature (for "MERGE command" it led with a 2026 bug-fix entry); trust its
-`timeline` events, check its `graph` facts. Mail before the list archive's
-start is not indexed.
+`timeline` events, check its `graph` facts. `history-of`'s commits are the
+newest that match the words, one row per branch copy: for MERGE all five were
+copies of one unrelated 2026 fix, so take landmark commits from the timeline.
+Without `until`, `retrieve_context` answers with the newest matching revert
+(for MERGE, 2026's MERGE/SPLIT PARTITION revert). Mail before the list
+archive's start is not indexed.
 
-Validated on MERGE: `7103ebb7aa` (2022-03-28, first release 15.0) and its 2018
-predecessor `e6597dc353`, reverted by `aa5877bb26` (`retrieve_context` returned
-the revert as `commit_context`).
+Validated on MERGE: the timeline runs from Simon Riggs's 2017 thread through
+two 2018 commits and their reverts (`e6597dc353` by `aa5877bb26`, `d204ef6377`
+by `08ea7a2291`) to `7103ebb7aa` (2022-03-28, first release 15.0), and
+`commit_history` agrees on each. `retrieve_context` with `until="2019-01-01"`
+led with Simon Riggs's revert on pgsql-committers.
 
 REST/GraphQL: `GET /api/v2/related?ref=feature:<name>`,
 `GET /api/v2/code/history/commits?message=...`,
