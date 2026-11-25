@@ -266,11 +266,15 @@ REST/GraphQL: `GET /api/v2/mail/search?q=...&list=pgsql-bugs`,
 Inputs: a design choice, ideally with the code it lives in.
 
 ```text
-r = retrieve_context(query="why does <thing> <behaviour>", token_budget=4000)
-if r.commit_context: k = r.commit_context            # check it is the right commit
-else:
+r = retrieve_context(query="why does <thing> <behaviour>", until="<if dated>",
+                     token_budget=4000)
+if r.commit_context is the right commit: k = r.commit_context
+elif the choice lives in code:
     b = blame(path="<file>", start_line=a, end_line=z)   # who wrote the lines
     k = get_commit(commit=<the line's sha>, diff=false)
+else:
+    c = search_commits(message="^<subject words>", until="<if dated>", range="master")
+    k = get_commit(commit=<the right one in c>.sha, diff=false)   # k.message gives the why
 d = cross_reference(ref=k.sha)                       # the Discussion thread and timeline
 s = said(message_id=<that thread>, topic="<choice>")
 ```
@@ -278,14 +282,22 @@ s = said(message_id=<that thread>, topic="<choice>")
 Cite: the commit message, the Discussion thread, and the objection or
 agreement sentences.
 
-Limits: `commit_context.states_reason` is a rule's guess; read the message.
+Limits: `commit_context` is the newest commit whose subject matches, so check
+its date; `until` narrows the passages but can leave `commit_context` empty.
+`commit_context.states_reason` is a rule's guess; read the message.
 `blame` ignores pgindent commits by default (`ignore_revs`); a line moved by a
 refactor blames the refactor, so walk back with `commit=<sha>^`. Reasons given
 in person, at conferences or on IRC, are not in the index.
 
-Validated on "why was MERGE reverted in 2018": `commit_context` was the revert
-`aa5877bb26`, and the passages included Simon Riggs's revert message on
-pgsql-committers.
+Validated on "why was MERGE reverted in 2018": without `until`,
+`commit_context` was 2026's MERGE/SPLIT PARTITION revert (wrong). With
+`until="2019-01-01"` the passages led with Simon Riggs's revert on
+pgsql-committers and `commit_context` was empty; `search_commits` for
+`^Revert.*MERGE` before 2019 on master gave `08ea7a2291`, whose message gives
+the reason (parts of the executor and parse analysis wanted a different
+design, with no time left for PG11); `cross_reference` on it found the
+pgsql-committers post and the PG11 thread, and `said` on that thread found
+Peter Geoghegan's objections.
 
 REST/GraphQL: `GET /api/v2/code/history/blame?path=...`,
 `GET /api/v2/related?ref=<sha>`. `retrieve_context` and `said` are MCP only.
