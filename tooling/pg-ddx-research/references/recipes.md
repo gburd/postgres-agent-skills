@@ -171,6 +171,8 @@ Inputs: the idea in a few words (64-bit transaction ids).
 
 ```text
 e = search_commitfest(query="\"<phrase>\"", commitfests="all", limit=20)
+if e misses the idea: repeat with the list's own term ("64-bit XIDs", not
+    "64-bit transaction ids"), which entry titles use
 for each entry x in e.results:
     hx = entry_history(cf_id=x.cf_id)                # earlier and later incarnations
     gx = get_entry(cf_id=x.cf_id)                    # threads, authors, status
@@ -182,14 +184,17 @@ Stop when every entry's final status is known. Cite: entry ids with status,
 the thread urls, and objections as `said` sentences with their urls.
 
 Limits: quote the phrase: an unquoted query matches any transaction-id entry
-(132 for "64-bit transaction ids"). `entry_history` linkage `title-prefix` is
+(132 for "64-bit transaction ids"). A quoted phrase matches titles literally:
+"64-bit transaction ids" finds only the xid8 entry 2271, "64-bit XIDs" finds
+4703, 3594 and 2982. `entry_history` linkage `title-prefix` is
 weak (it joined "64-bit XIDs in deleted nbtree pages", a different patch).
 `said` stance labels come from cue words; read the sentence. Discussions before
 the commitfest app (2014) are only in the mail search.
 
-Validated on 64-bit XIDs: entries 4703 and 3594 (Returned with feedback),
-first proposals on the list in 2006; `said` on 4703's thread found Robert
-Haas's and Heikki Linnakangas's concerns.
+Validated on 64-bit XIDs: `"64-bit XIDs"` gave entries 4703 and 3594
+(Returned with feedback) and 2982; `retrieve_context` reached mail from 2003
+(pgsql-general) and 2006 (pgsql-hackers); `said` on 4703's thread found Robert
+Haas's and Heikki Linnakangas's concerns (as late as February 2026).
 
 REST/GraphQL: `GET /api/v2/commitfest/search?q=...&cf=all`,
 `GET /mcp/api/commitfest/entry/<cf_id>/history`. GraphQL
