@@ -72,7 +72,9 @@ REST/GraphQL: `GET /api/v2/related?ref=feature:<name>`,
 Inputs: a subsystem path (`src/backend/access/brin/`) or a topic.
 
 ```text
+n = search_commits(paths=["<dir>/"], since="<3y ago>", range="master", output="count")
 c = search_commits(paths=["<dir>/"], since="<3y ago>", range="master", limit=200)
+while len(c.commits) < n.total: c += search_commits(..., offset=len(c.commits))
 count c.commits by author                            # who changed it lately
 m = hybrid_search(query="<topic>", since="1y", limit=50)
 count m.results by from                              # who discusses it lately
@@ -85,7 +87,11 @@ rank by recent commits + recent mail; drop names with nothing in 6 months
 Cite: the commit SHAs and message urls behind each name. Present it as "who
 has worked here", not "who will review".
 
-Limits: without `range`, every branch is searched and each back-patch counts
+Limits: `total` counts every match, so page until you hold that many rather
+than stopping at the first `limit`. If your tool results are cut short, page
+with `git_log(path=<file>, format="oneline")` instead: it returns sha, date,
+author and subject only (the full messages of 200 pg_dump.c commits run to
+341 KB). Without `range`, every branch is searched and each back-patch counts
 again (on BRIN, Tomas Vondra 77 and the 200-row limit reached); `range="master"`
 counts a back-patched fix once, and misses work that landed only on a back
 branch. `search_commits` rows carry `author` only (the committer); patch
@@ -205,31 +211,45 @@ REST/GraphQL: `GET /api/v2/commitfest/search?q=...&cf=all`,
 Inputs: a CVE id, or a symptom in a security-relevant area.
 
 ```text
-if a CVE id:
-    x = cross_reference(ref="CVE-YYYY-NNNNN", kinds=["git"], limit=10)
-    fix = x.related.git where relations has "fixes-cve" and title matches x.ref.title
-    for each fix.releases row r: r.branch, r.sha, r.release   # one sha per branch
-    get_commit(commit=<the master row's sha>, diff=false)    # message, backpatch
-else:
-    c = search_commits(message="Security: CVE-", paths=["<dir>/"], limit=20)
-    a = hybrid_search(query="<area> security", inbox="pgsql-announce")
+if no CVE id:
+    s = search_all_sources(query="<the symptom in a few words>")
+    take the results with kind "security" (id is the CVE); if none:
+        c = search_commits(message="Security: CVE-", paths=["<dir>/"], limit=20)
+        a = hybrid_search(query="<area> security", inbox="pgsql-announce")
+x = cross_reference(ref="CVE-YYYY-NNNNN", kinds=["git"], limit=10)
+x.ref.advisory: the security page's row: status, fixed releases, affected
+    majors, component, CVSS, description, url
+if x.ref.advisory.status is "not-a-vulnerability": say so, cite x.ref.url, stop
+fix = x.related.git where relations has "fixes-cve" and title matches the advisory
+for each fix.releases row r: r.branch, r.sha, r.release   # one sha per branch
+get_commit(commit=<the master row's sha>, diff=false)    # message, backpatch
 ```
 
-Cite: the advisory url (`x.ref.url`), the fixing commit per branch with the
-release that first shipped it.
+Cite: the advisory url (`x.ref.url`), its fixed releases, and the fixing
+commit per branch with the release that first shipped it.
 
-Limits: `fixes-cve` also tags later commits that name the CVE (test and build
-follow-ups); for CVE-2024-10979 the real fix "Block environment variable
-mutations from trusted PL/Perl" came fourth. Match the advisory title.
+Limits: the security source is the project's security page
+(www.postgresql.org/support/security/, every major from 7.3, synced daily) and
+its "not a security vulnerability" statements (CVE-2019-9193,
+CVE-2020-21469); extension, driver and installer CVEs are not on it. The
+advisory's `fixed` list is authoritative for releases; a commit's `releases`
+row says where that one commit first shipped. `fixes-cve` also tags later
+commits that name the CVE (test and build follow-ups); for CVE-2024-10979 the
+real fix "Block environment variable mutations from trusted PL/Perl" came
+fourth. Match the advisory title.
 Undisclosed issues are not in a public archive, so "nothing found" means
 "nothing public", never "not vulnerable". The `Security: CVE-...` trailer
 convention is recent; older fixes say so only in the release notes.
 
 Validated on CVE-2024-10979: advisory url, fix on 12-17 and master, shipped in
 12.21, 13.17, 14.14, 15.9, 16.5, 17.1. The path route found the November 2026
-PL/Perl fixes (`c148f9509e` carries `Security: CVE-2026-...`).
+PL/Perl fixes (`c148f9509e` carries `Security: CVE-2026-...`). Against the
+synced security page, the search step put the right CVE first for 204 of 210
+advisories asked as "is it a known security issue that <its title>?", and
+"COPY FROM PROGRAM privilege escalation" leads with CVE-2019-9193's statement.
 
-REST/GraphQL: `GET /api/v2/related?ref=CVE-YYYY-NNNNN&kinds=git`,
+REST/GraphQL: `GET /api/v2/related?ref=CVE-YYYY-NNNNN&kinds=git`
+(`ref.advisory`; the search step is MCP only),
 `GET /api/v2/code/history/commits?message=Security:%20CVE-&paths=...`.
 
 ## 7. "Is ___ a known bug?"
@@ -244,16 +264,20 @@ for each likely report r in b.results:
     read the replies (get_message) for "fixed by", a SHA, or "cannot reproduce"
 c = search_commits(message="<symptom words>", since="<version branch date>")
 for a fix f: commit_history(commit=f.sha).first_releases   # which minor release has it
+n = search_docs(query="<symptom words> inurl:release")      # the release notes' line
 ```
 
 Cite: the report url, the reply that diagnoses it, and the fixing commit with
-its first release.
+its first release; the release-notes entry when there is one (it is what users
+read, and it says which minor releases carry the fix).
 
 Limits: a commit is tied to a report only when its `Discussion:` names the
 thread or the thread cites the SHA; many fixes do neither. Bug numbers
 (`BUG #17960`) are not a lookup key for `find_related_discussions` (it does a
 substring match over Message-IDs); use the report's Message-ID. Reports
-answered off-list leave no trace.
+answered off-list leave no trace. The docs index holds the release notes of the
+current major's minors (`release-18-6.html`, ...); older majors' notes are under
+their own version (`version="16"`).
 
 Validated on "pg_dump generated column": BUG #17960 (2023-06-04); Tom Lane's
 reply points at `0b126c6a4b`, and `cross_reference` on the report found the
@@ -314,13 +338,21 @@ h = entry_history(cf_id=g.cf_id)                     # moved, returned, committe
 if status is committed: c = cross_reference(ref=g.threads[0], kinds=["git"])
 else: t = get_thread(message_id=g.threads[0], include_body=false)   # last activity
       s = said(message_id=g.threads[0])              # what stopped it
+      b = get_patch_build_history(cf_id=g.cf_id)     # is it passing: cfbot's matrix
+      b.rollup: failing_platforms, applies_cleanly, needs_rebase, last_build_at
 ```
 
-Cite: the entry with each commitfest's status, the last messages, and the
-commit if it landed.
+Cite: the entry with each commitfest's status, the last messages, the cfbot
+verdict (`b.rollup`, with a failing job's log url), and the commit if it
+landed.
 
 Limits: the `outlook` in `search_commitfest` is a model's estimate of P(commit),
-not a review. Entries filed before the commitfest app only exist as threads.
+not a review. `needs_rebase` means the newest version no longer applies, and
+the builds shown are of the last one that did; an old `seen_at` in
+`build_status_freshness` means our cfbot scrape stalled, so check it before
+calling a result current. "Which open
+patches fail now" is `find_failing_patches(platform=...)`. Entries filed
+before the commitfest app only exist as threads.
 A patch can land under a different subject: search the commits by author and
 date too.
 
@@ -329,8 +361,8 @@ review in commitfest 62, outlook p_release 0.24; and on MERGE thread
 `CANP8+jKitBSrB7o...`: entry 1446, Returned with feedback in 2018.
 
 REST/GraphQL: `GET /api/v2/commitfest/search?q=...&cf=all`,
-`GET /mcp/api/commitfest/entry/<cf_id>/history`. `get_entry` and `said` are
-MCP only.
+`GET /mcp/api/commitfest/entry/<cf_id>/history`. `get_entry`,
+`get_patch_build_history` and `said` are MCP only.
 
 ## 10. "What broke after commit ___?"
 
@@ -371,8 +403,8 @@ Inputs: a patch (its thread, or the files it touches).
 ```text
 files = the paths the patch touches (get_attachment, or the diff you hold)
 for each file p:
-    b = git_blame(path=p, limit=100)                 # recent commits to the file
-    count b.history by author_name
+    b = git_log(path=p, format="oneline", limit=100)  # recent commits to the file
+    count b.commits by author
 prior = hybrid_search(query="<subject words>", limit=20)
 count prior.results by from                          # who argued about this area
 for top names n: whats_new(who=n, since="2m", kinds=["mail_from"])   # still around
@@ -382,8 +414,9 @@ exclude the patch's own authors; prefer people with both commits and mail here
 Cite: the commits and messages behind each suggestion.
 
 Limits: this finds people who know the code, not people with time; say so.
-`git_blame` gives a file's commit list (it does not take a directory: use
-`search_commits(paths=[...])` for one); `blame` gives lines. Authors who never
+`git_log` takes one file (for a directory use `search_commits(paths=[...])`,
+whose `total` says how many there are); `git_blame` gives the same list with
+each commit's line counts, `blame` gives lines. Authors who never
 commit (reviewers) show only in mail and in `Reviewed-by:` trailers.
 
 Validated on `src/backend/access/brin/brin.c`: of the file's last 100 commits

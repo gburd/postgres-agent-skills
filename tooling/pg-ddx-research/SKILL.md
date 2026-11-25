@@ -12,17 +12,18 @@ description: >
 license: CC0-1.0
 metadata:
   author: ddx
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # PostgreSQL community & code research (pg.ddx.io MCP)
 
 [pg.ddx.io](https://pg.ddx.io/) (The Database Development neXus: for
 PostgreSQL) runs an MCP server that indexes the pgsql-hackers archive
-(100k+ messages, JWZ-threaded), the upstream `master` git history with
-author/date/thread metadata, commitfest entries, the build farm, the wiki, and
-several repos with code intelligence (symbols, callers, history). One query
-replaces hours of `git log -S` and archive grepping.
+(100k+ messages, JWZ-threaded) and the other lists (pgsql-bugs among them),
+the upstream git history with author/date/thread metadata, commitfest entries
+and their cfbot builds, the project's security advisories, the build farm,
+the wiki, and several repos with code intelligence (symbols, callers,
+history). One query replaces hours of `git log -S` and archive grepping.
 
 - **Endpoint:** `https://pg.ddx.io/mcp/`
 - **Transport:** Streamable HTTP / SSE. No authentication.
