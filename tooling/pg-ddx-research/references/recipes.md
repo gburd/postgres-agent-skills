@@ -213,7 +213,9 @@ Inputs: a CVE id, or a symptom in a security-relevant area.
 ```text
 if no CVE id:
     s = search_all_sources(query="<the symptom in a few words>")
-    take the results with kind "security" (id is the CVE); if none:
+    take the results with kind "security" (id is the CVE; at most the 2 best
+    when other sources fill the limit, s.per_source_hits.security counts all)
+    if none:
         c = search_commits(message="Security: CVE-", paths=["<dir>/"], limit=20)
         a = hybrid_search(query="<area> security", inbox="pgsql-announce")
 x = cross_reference(ref="CVE-YYYY-NNNNN", kinds=["git"], limit=10)
@@ -231,7 +233,15 @@ commit per branch with the release that first shipped it.
 Limits: the security source is the project's security page
 (www.postgresql.org/support/security/, every major from 7.3, synced daily) and
 its "not a security vulnerability" statements (CVE-2019-9193,
-CVE-2020-21469); extension, driver and installer CVEs are not on it. The
+CVE-2020-21469); extension, driver and installer CVEs are not on it. It
+answers only when at least half the query's words are advisory-title words,
+so a question about something else gets no security result; a symptom
+phrased in other words may get none either, which is why the commit and
+announcement steps follow. When the 2 advisories shown do not fit and
+per_source_hits.security is higher, search again with only the symptom's
+distinctive words, no question around them ("server undersizes allocations
+integer wraparound" puts CVE-2026-6473 first; asked as a question it came
+third, behind two advisories sharing those words). The
 advisory's `fixed` list is authoritative for releases; a commit's `releases`
 row says where that one commit first shipped. `fixes-cve` also tags later
 commits that name the CVE (test and build follow-ups); for CVE-2024-10979 the
@@ -244,9 +254,10 @@ convention is recent; older fixes say so only in the release notes.
 Validated on CVE-2024-10979: advisory url, fix on 12-17 and master, shipped in
 12.21, 13.17, 14.14, 15.9, 16.5, 17.1. The path route found the November 2026
 PL/Perl fixes (`c148f9509e` carries `Security: CVE-2026-...`). Against the
-synced security page, the search step put the right CVE first for 204 of 210
-advisories asked as "is it a known security issue that <its title>?", and
-"COPY FROM PROGRAM privilege escalation" leads with CVE-2019-9193's statement.
+synced security page (231 rows), the right CVE was among the 2 advisories the
+search step keeps for 209 of 210 advisories asked as "is it a known security
+issue that <its title>?" (first for 204), and "COPY FROM PROGRAM privilege
+escalation" leads with CVE-2019-9193's statement even when 20 commits match.
 
 REST/GraphQL: `GET /api/v2/related?ref=CVE-YYYY-NNNNN&kinds=git`
 (`ref.advisory`; the search step is MCP only),
